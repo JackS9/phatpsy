@@ -1,0 +1,29 @@
+      SUBROUTINE FLIP(ARRAY1,ICOL1,NCOL1,ARRAY2,ICOL2,NCOL2,NROW)
+      IMPLICIT REAL*8(A-H,O-Z)
+C-----------------------------------------------------------------------
+C
+C     FLIP...
+C
+C        THIS ROUTINE INTERCHANGES TWO COLUMNS OF TWO DIFFERENT
+C     (OR THE SAME) ARRAYS.
+C
+C     VARIABLE DEFINITIONS:
+C
+C        ARRAY1(*,*)... FIRST ARRAY.
+C        ICOL1......... COLUMN OF ARRAY1 TO BE INTERCHANGED.
+C        NCOL1......... COLUMN DIMENSION OF ARRAY1.
+C        ARRAY2(*,*)... SECOND ARRAY.
+C        ICOL2......... COLUMN OF ARRAY2 TO BE INTERCHANGED.
+C        NCOL2......... COLUMN DIMENSION OF ARRAY2.
+C        NROW.......... ROW DIMENSION OF BOTH ARRAYS.
+C
+C-----------------------------------------------------------------------
+      DIMENSION ARRAY1(NROW,NCOL1),ARRAY2(NROW,NCOL2)
+      DO 10 N=1,NROW
+      ELEM1=ARRAY1(N,ICOL1)
+      ELEM2=ARRAY2(N,ICOL2)
+      ARRAY1(N,ICOL1)=ELEM2
+      ARRAY2(N,ICOL2)=ELEM1
+   10 CONTINUE
+      RETURN
+      END

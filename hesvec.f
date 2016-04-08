@@ -1,0 +1,59 @@
+      SUBROUTINE HESVEC(H,N,NN,SCR,ROOT,ETA,SCRV,VEC,*)
+      IMPLICIT REAL*8(A-H,O-Z)
+      DIMENSION H(N,N),SCR(NN,NN),SCRV(NN),VEC(N)
+      REAL*8 UNZ,TOL
+C	  PARAMETER (UNZ = $F)
+C	  PARAMETER (TOL = $3510000000000000)
+	  PARAMETER (UNZ = 15)
+	  PARAMETER (TOL = 16.0D0**(-12))
+      FAC=ROOT+ETA
+      ND=NN-1
+      DO 5 I=NN,N
+5     VEC(I)=0.
+      DO 12 I=1,NN
+      DO 10 J=1,NN
+10    SCR(I,J)=H(I,J)
+12    SCR(I,I)=SCR(I,I)-FAC
+      DO 35 I=1,ND
+      IF (DABS(SCR(I,I)).LT.1.D0) GO TO 20
+      SCR(I+1,I)=UNZ
+      FAC=1.D0/SCR(I,I)
+      GO TO 30
+20    DO 25 J=I,NN
+      FAC=SCR(I,J)
+      SCR(I,J)=SCR(I+1,J)
+25    SCR(I+1,J)=FAC
+      FAC=SCR(I+1,I)
+30    DO 35 J=I,ND
+35    SCR(I+1,J+1)=SCR(I+1,J+1)-FAC*SCR(I,J+1)
+      DO 45 J=1,NN
+45    SCRV(J)=1.D0
+      NIT=0
+50    VEC(NN)=SCRV(NN)/SCR(NN,NN)
+      AVC=VEC(NN)
+      DO 60 I=1,ND
+      NI=NN-I
+      FAC=SCRV(NI)
+      DO 55 J=NI,ND
+55    FAC=FAC-SCR(NI,J+1)*VEC(J+1)
+      VEC(NI)=FAC/SCR(NI,NI)
+60    IF (DABS(AVC).LT.DABS(VEC(NI))) AVC =VEC(NI)
+      I=0
+      DO 65 J=1,NN
+      VEC(J)=VEC(J)/AVC
+65    IF (DABS((VEC(J)-SCRV(J))/VEC(J)).GT.TOL) I=1
+      IF (I.EQ.0) RETURN
+      NIT=NIT+1
+      IF (NIT.GT.8) RETURN1
+      DO 80 I=1,NN
+80    SCRV(I)=VEC(I)
+      DO 90 I=1,ND
+      IF (SCR(I+1,I).EQ.UNZ) GO TO 85
+      FAC=SCRV(I+1)
+      SCRV(I+1)=SCRV(I)-FAC*SCR(I+1,I)
+      SCRV(I)=FAC
+      GO TO 90
+85    SCRV(I+1)=SCRV(I+1)-SCRV(I)/SCR(I,I)
+90    CONTINUE
+      GO TO 50
+      END

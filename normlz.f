@@ -1,0 +1,46 @@
+      SUBROUTINE NORMLZ(EVEC,NVEC,OVRLAP,NBAS,N2BAS)
+      IMPLICIT REAL*8(A-H,O-Z)
+C-----------------------------------------------------------------------
+C
+C     NORMLZ...
+C
+C        THIS ROUTINE NORMALIZES THE EIGENVECTORS OF AN EIGENVECTOR
+C     ARRAY ACCORDING TO A METRIC MATRIX.
+C
+C         T
+C        C S C = 1
+C
+C     VARIABLE DEFINITIONS:
+C
+C        EVEC(*)..... EIGENVECTOR ARRAY (OR A GENERAL MATRIX).
+C        NVEC........ NUMBER OF EIGENVECTORS (NUMBER OF COLUMNS).
+C        OVRLAP(*)... THE METRIC (OVERLAP) MATRIX FOR THE BASIS.
+C        NBAS........ THE ORDER OF THE BASIS (NUMBER OF ROWS).
+C        N2BAS....... =NBAS*(NBAS+1)/2, DIMENSION OF OVRLAP(*).
+C
+C     ROUTINES CALLED:  DSQRT
+C
+C-----------------------------------------------------------------------
+      DIMENSION EVEC(NBAS,NVEC),OVRLAP(N2BAS)
+      DATA ZERO,ONE,TWO/0.D0,1.D0,2.D0/
+      DO 40 I=1,NVEC
+      SUMJK=ZERO
+      DO 20 J=1,NBAS
+      JJ=(J*(J-1))/2
+      CJI=EVEC(J,I)
+      SUMJK=SUMJK+CJI*CJI*OVRLAP(JJ+J)
+      IF (J.EQ.1) GO TO 20
+      JM1=J-1
+      DO 10 K=1,JM1
+      JK=JJ+K
+      SUMJK=SUMJK+TWO*EVEC(K,I)*CJI*OVRLAP(JK)
+   10 CONTINUE
+   20 CONTINUE
+      IF (SUMJK.EQ.ZERO) GO TO 40
+      CINORM=ONE/DSQRT(SUMJK)
+      DO 30 J=1,NBAS
+      EVEC(J,I)=EVEC(J,I)*CINORM
+   30 CONTINUE
+   40 CONTINUE
+      RETURN
+      END

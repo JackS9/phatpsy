@@ -1,0 +1,26 @@
+      SUBROUTINE PUTSYM(TITLE,SYMMAT,NBAS,IW)
+      IMPLICIT REAL*8(A-H,O-Z) 
+      CHARACTER*(*) TITLE
+C-----------------------------------------------------------------------
+C
+C     PUTSYM...
+C
+C        THIS ROUTINE WRITES OUT A SYMMETRY PACKED MATRIX IN LOWER
+C     TRIANGULAR FORM WITH 10 COLUMNS PER PAGE.
+C
+C     VARIABLE DEFINITIONS:
+C
+C        TITLE....... TITLE ABOVE MATRIX OUTPUT.
+C        SYMMAT(*)... PACKED MATRIX.  (DIMENSIONED NBAS*(NBAS+1)/2).
+C        NBAS........ DIMENSION OF BASIS (NUMBER OF ROWS AND COLUMNS).
+C        IW.......... FORTRAN I/O UNIT FOR WRITING.
+C
+C     ROUTINES CALLED:  PUTONE
+C
+C-----------------------------------------------------------------------
+      DIMENSION SYMMAT(1)
+	  WRITE(IW,1000) TITLE
+	  CALL PUTONE(SYMMAT,NBAS,IW)
+	  RETURN
+ 1000 FORMAT('-',A)
+	  END

@@ -1,0 +1,128 @@
+      SUBROUTINE ONEINT(STOVL,STKIN,STPOT,STPOTX,LV,MV,VEXP,
+     X                  N,L,ETA,ANORM,INDEX,CGC,QREALY)
+      IMPLICIT REAL*8(A-H,O,P,R-Z),LOGICAL*1(Q)
+C-----------------------------------------------------------------------
+C
+C     ONEINT...
+C
+C        THIS ROUTINE GENERATES ALL THE ONE-ELECTRON INTEGRALS OVER
+C     STO'S ON A SINGLE CENTER.  THEY ARE RETURNED IN SYMMETRICAL
+C     LOWER TRIANGULAR PACKED ARRAYS.
+C
+C             STOVL(IJ) = <I!J>        (OVERLAP)
+C             STKIN(IJ) = <I!T!J>      (KINETIC ENERGY)
+C             STPOT(IJ,K) = <I!V(K)!J> (POTENTIAL ENERGY)
+C
+C             IJ = INDEX(I) + J
+C
+C             !I> = ANORM(I) * R**(NI-1) * EXP(-ETAI*R) * Y(LI,MI)
+C
+C             NI = N(I)
+C             LI = L(I)
+C             -LI LE MI LE LI
+C             ETAI = ETA(I)
+C             '(I)' -- DOES NOT LOOP OVER ML-VALUES.
+C
+C             LV(K).GE.0
+C                V(K) = R**(LV(K)-1)*EXP(-VEXP(K)*R)
+C             LV(K).LT.0
+C                V(K) = R**(-LV(K))*EXP(-VEXP(K)*R)*Y(-LV(K),MV(K))
+C
+C     OTHER DEFINITIONS:
+C
+C        NSTO...... NUMBER OF STO'S, NOT INCLUDING ML-VALUES.
+C        MSTO...... NUMBER OF STO'S, INCLUDING ML-VALUES.
+C        M2STO..... =INDEX(MSTO+1), DIMENSION OF ST---(*).
+C        NVTERM.... NUMBER OF TERMS IN THE POTENTIAL ENERGY EXPRESSION.
+C                   DIMENSION OF VEXP(*), STPOT(*,*), STPOTX(*).
+C        FACT(N)... =(N-1)-FACTORIAL.
+C        INDEX(N)... =(N*(N-1))/2, INDEXING ARRAY FOR SYMMETRY PACKING.
+C        STPOTX(*)... USED FOR TEMPORARY STORAGE OF STPOT(*,*) ELEMENTS.
+C
+C     ROUTINES CALLED:  CGCOEF, DERASE; DSQRT
+C
+C     COMMON USAGE:
+C
+C        /PARMS/  USES - IPARM(5)(=MSTO),    IPARM(27)(=M2STO),
+C                        IPARM(31)(=NVTERM), IPARM(32)(=NSTO)
+C
+C        /TABLES/ USES - ZERO,FACT(*),REALS(2)(=TWO),ROOTPI
+C
+C     RESTRICTIONS:
+C
+C        FACT(*) HAS BEEN DIMENSIONED TO HANDLE ONLY UP TO A MAXIMUM
+C     L-VALUE OF 5 AND A MAXIMUM N-VALUE OF 10.  DIMENSION SHOULD BE
+C     FACT(MAX0(2*NMAX+2,4*LMAX+2)).  FACT(*) IS SET IN BLOCK DATA.
+C
+C-----------------------------------------------------------------------
+      COMMON /PARMS/ APARM(20),IPARM(50),QPARM(50)
+      EQUIVALENCE (IPARM(5),MSTO),    (IPARM(24),NCGC),
+     X            (IPARM(27),M2STO),
+     X            (IPARM(31),NVTERM), (IPARM(32),NSTO)
+      COMMON /TABLES/ REALS(10),FACT(22),FFAC(19),BINOM(91),HALFPI(8),
+     X                ZERO,HALF,ROOT(10),ROOTPI,CONST(10),CONVRT(10)
+      EQUIVALENCE (REALS(2),TWO)
+      DIMENSION STOVL(M2STO),  STKIN(M2STO),  STPOT(M2STO,NVTERM),
+     X          STPOTX(NVTERM),VEXP(NVTERM),  N(NSTO),
+     X          L(NSTO),       ETA(NSTO),     ANORM(NSTO),
+     X          INDEX(MSTO),   LV(NVTERM),    MV(NVTERM),
+     X          CGC(NCGC)
+      OVLX(N1,N2,ETA1,ETA2)=FACT(N1+N2+1)/(ETA1+ETA2)**(N1+N2+1)
+      CALL DERASE(STOVL,M2STO)
+      CALL DERASE(STKIN,M2STO)
+      CALL DERASE(STPOT,M2STO*NVTERM)
+      ISKIP=0
+      DO 80 I=1,NSTO
+      NI=N(I)
+      LI=L(I)
+      LLIP1=2*LI+1
+      ETAI=ETA(I)
+      ANORMI=ANORM(I)
+      JSKIP=0
+      DO 70 J=1,I
+      NJ=N(J)
+      LJ=L(J)
+      LLJP1=2*LJ+1
+      ETAJ=ETA(J)
+      STNORM=ANORMI*ANORM(J)
+      VNORM=STNORM*TWO*ROOTPI
+      IF (LJ.NE.LI) GO TO 10
+      STOVLX=STNORM*OVLX(NI,NJ,ETAI,ETAJ)
+      STKINX=STOVLX*(NJ*ETAI*ETAI+NI*ETAJ*ETAJ-(NJ*ETAI-NI*ETAJ)**2+LI*
+     X     (LI+1)*(ETAI+ETAJ)**2)/(TWO*(NI+NJ)*(NI+NJ-1))
+   10 CONTINUE
+      DO 20 K=1,NVTERM
+      ETAK=ETAJ+VEXP(K)
+      NK=NJ+LV(K)
+      IF (LV(K).LT.0) NK=NJ-LV(K)+1
+      STPOTX(K)=VNORM*OVLX(NI,NK,ETAI,ETAK)*(ETAI+ETAK)/(NI+NK)
+   20 CONTINUE
+      DO 60 MI=1,LLIP1
+      MLI=MI-LI-1
+      IF (LJ.NE.LI) GO TO 30
+      IJ=INDEX(MI+ISKIP)+MI+JSKIP
+      STOVL(IJ)=STOVLX
+      STKIN(IJ)=STKINX
+   30 CONTINUE
+      MJMX=LLJP1
+      IF (I.EQ.J) MJMX=MI
+      DO 50 MJ=1,MJMX
+      MLJ=MJ-LJ-1
+      IJ=INDEX(MI+ISKIP)+MJ+JSKIP
+      DO 40 K=1,NVTERM
+      IF (LV(K)) 35,37,37
+   35 LK=-LV(K)
+      MK=MV(K)
+      GO TO 38
+   37 LK=0
+      MK=0
+   38 STPOT(IJ,K)=STPOTX(K)*CGCOEF(CGC,MLI,MK,MLJ,LI,LK,LJ,QREALY)
+   40 CONTINUE
+   50 CONTINUE
+   60 CONTINUE
+      JSKIP=JSKIP+LLJP1
+   70 CONTINUE
+      ISKIP=ISKIP+LLIP1
+   80 CONTINUE
+      RETURN
+      END

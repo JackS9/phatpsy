@@ -1,0 +1,37 @@
+      FUNCTION AVERAG(ONEMAT,DENMAT,NBAS,N2BAS)
+      IMPLICIT REAL*8(A-H,O-Z)
+C-----------------------------------------------------------------------
+C
+C     AVERAG...
+C
+C        THIS FUNCTION RETURNS THE EXPECTATION VALUE (AVERAGE) OF A
+C     ONE-ELECTRON OPERATOR.
+C
+C     VARIABLE DEFINITIONS:
+C
+C        ONEMAT(*)... ONE-ELECTRON OPERATOR MATRIX IN A BASIS.
+C        DENMAT(*)... ONE-ELECTRON DENSITY (FOCK-DIRAC) MATRIX OVER THE
+C                     SAME BASIS.
+C        NBAS........ DIMENSION OF BASIS.
+C        N2BAS....... =NBAS*(NBAS+1)/2, DIMENSION OF ONEMAT(*) AND
+C                     DENMAT(*) IN SYMMETRY PACKED FORM.
+C
+C     ROUTINES CALLED:  NONE
+C
+C-----------------------------------------------------------------------
+      DIMENSION ONEMAT(N2BAS),DENMAT(N2BAS)
+      DATA TWO/2.D0/
+      AVERAG=DENMAT(1)*ONEMAT(1)
+      IF (NBAS.LT.2) RETURN
+      DO 20 I=2,NBAS
+      IM1=I-1
+      II=(I*(I-1))/2
+      III=II+I
+      AVERAG=AVERAG+DENMAT(III)*ONEMAT(III)
+      DO 10 J=1,IM1
+      IJ=II+J
+      AVERAG=AVERAG+TWO*DENMAT(IJ)*ONEMAT(IJ)
+   10 CONTINUE
+   20 CONTINUE
+      RETURN
+      END

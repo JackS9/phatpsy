@@ -1,0 +1,98 @@
+      SUBROUTINE TIMOUT(MSGTYP)
+      IMPLICIT REAL*8(A-H,O-Z)
+C-----------------------------------------------------------------------
+C
+C     TIMOUT...
+C
+C        THIS ROUTINE HANDLES ALL THE TIMING AND RELATED MESSAGES.
+C
+C        MSGTYP .LT. 0 ... GIVES TOTAL ELAPSED TIME TO THIS POINT.
+C               .EQ. 0 ... SETS TEMPORARY TIMER TO ZERO (HAS NO EFFECT
+C                          ON TOTAL ELAPSED TIME).
+C               .GT. 0 ... GIVES ELAPSED TIME SINCE THE LAST CALL WITH
+C                          MSGTYP.EQ.0.
+C
+C        BEGIN.... ELAPSED TIME (SECONDS) AT CALL TO GETSET
+C        START.... ELAPSED TIME (SECONDS) AT LAST CALL WITH
+C                  MSGTYP.GT.0.
+C        FINISH... ELAPSED TIME SINCE BEGIN.
+C        SECS..... FINISH-START IF MSGTYP.GT.0, FINISH IF MSGTYP.LT.0.
+C        TIMEND... MAXIMUM ALLOTTED TIME..
+C
+C     ENTRY:  GETSET...
+C
+C        THIS ENTRY POINT STARTS THE TIMER AND MUST PRECEDE ANY
+C     CALLS TO TIMOUT.
+C
+C     ROUTINES CALLED:  SECNDS; IABS
+C
+C     COMMON USAGE:
+C
+C        /IODATA/ USES - IUNIT(6)(=IW)
+C
+C        /TIMES/  SETS - START, FINISH, SECS, TIMEND
+C
+C-----------------------------------------------------------------------
+      COMMON /IODATA/ IUNIT(20),LENBUF
+      EQUIVALENCE (IUNIT(6),IW)
+      REAL*4 SECNDS
+      REAL*4 BEGIN,START,FINISH,SECS,TIMEND
+      COMMON /TIMES/ BEGIN,START,FINISH,SECS,TIMEND
+      CHARACTER*8 TIMMSG(44)
+      DIMENSION IBEGIN(10)
+      DATA IBEGIN/1,5,10,15,20,25,30,35,40,45/
+      DATA TIMMSG/'        ','        ','        ','        ',
+     X 'PROCESS ','INPUT ..','.       ','        ','        ',
+     X 'RECONSTR','UCT THE ','2-CENTER',' INTEGRA','LS ...  ',
+     X 'COMPUTE ','THE 1-CE','NTER INT','EGRALS .','..      ',
+     X 'COMPLETE',' THE SCF',' FOR THI','S ATOM .','..      ',
+     X 'PERFORM ','THE EWMO',' CALCULA','TION ...','        ',
+     X 'COMPLETE',' THIS CA','LCULATIO','N ...   ','        ',
+     X 'COMPUTE ','THE 2-CE','NTER INT','EGRALS .','..      ',
+     X 'COMPLETE',' THE ANA','LYSIS ..','.       ','        '/
+	  
+      FINISH=SECNDS(BEGIN)
+      IF (MSGTYP) 10,40,20
+	  
+   10 SECS=FINISH
+      IF (MSGTYP.LT.(-1)) GO TO 30
+      WRITE (IW,1000) SECS
+      RETURN
+	  
+   20 SECS=FINISH-START
+   
+   30 MSG=IABS(MSGTYP)
+      IBEG=IBEGIN(MSG)
+      IEND=IBEGIN(MSG+1)-1
+      WRITE (IW,2000) SECS,(TIMMSG(I),I=IBEG,IEND)
+      RETURN
+	  
+   40 START=FINISH
+      RETURN
+	  
+ 1000 FORMAT(' ... ELAPSED TIME IS',F6.2,' SECONDS ...')
+ 2000 FORMAT(/' ... IT TOOK ',F7.2,' SECONDS TO ',5A8)
+      END
+C
+C...
+      SUBROUTINE GETSET
+      REAL*4 BEGIN,START,FINISH,SECS,TIMEND
+      COMMON /TIMES/ BEGIN,START,FINISH,SECS,TIMEND
+      REAL*4 SECNDS
+	  
+      BEGIN=SECNDS(0.0)
+      START=0.0
+      RETURN
+      END
+C
+C...
+C     FUNCTION SECNDS(SINCE)
+C     REAL*4 SECNDS,SINCE
+C     REAL*8 CPUTIM
+C
+C     CPUTIM = SINCE
+C     CALL ETIME(CPUTIM)
+C
+C     SECNDS = CPUTIM-SINCE
+C     RETURN
+C     END	  

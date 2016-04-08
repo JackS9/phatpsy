@@ -1,0 +1,86 @@
+      FUNCTION CGCOEF(CGC,MM,M1,M2,LL,L1,L2,QREALY)
+      IMPLICIT REAL*8(A-H,O,P,R-Z),LOGICAL*1(Q)
+C-----------------------------------------------------------------------
+C
+C     CGCOEF...
+C
+C        THIS FUNCTION RETURNS THE CLEBSCH-GORDON COEFFICIENT
+C
+C        C(MM,M1,M2;LL,L1,L2)
+C
+C        CGC(*)... CLEBSCH-GORDON COEFFICIENTS.
+C        NCGC..... DIMENSION OF CGC(*).
+C        QREALY... =T --> COEFFICIENTS CORRESPOND TO REAL Y(L,M)'S.
+C                  =F --> COEFFICIENTS CORRESPOND TO COMPLEX Y(L,M)'S.
+C
+C     ROUTINES CALLED:  NDXCGC; IABS, DSQRT
+C
+C     COMMON USAGE:
+C
+C        /PARMS/  USES - IPARM(24)(=NCGC)
+C
+C
+C-----------------------------------------------------------------------
+      COMMON /PARMS/ APARM(20),IPARM(50),QPARM(50)
+      EQUIVALENCE (IPARM(24),NCGC)
+      DIMENSION CGC(NCGC)
+      DATA ZERO/0.D0/,ONE/1.D0/,TWO/2.D0/
+      ROOT2=DSQRT(TWO)
+      FACTOR=ONE
+      MT1=M1
+      MT2=M2
+      QSWTCH=.FALSE.
+      IF (.NOT.QREALY) GO TO 150
+      IF (IABS(M1).GE.IABS(M2)) GO TO 10
+      QSWTCH=.TRUE.
+      M1SAV=M1
+      M2SAV=M2
+      L1SAV=L1
+      L2SAV=L2
+      M1=M2SAV
+      M2=M1SAV
+      L1=L2SAV
+      L2=L1SAV
+      MT1=M1
+      MT2=M2
+   10 CONTINUE
+      IF (M2) 50,150,20
+   20 IF (M1) 40,150,30
+   30 IF (MM.EQ.M1+M2) GO TO 80
+      IF (MM.NE.M1-M2) GO TO 100
+      IF (MM.EQ.0) GO TO 140
+      GO TO 90
+   40 IF (MM.EQ.M1-M2) GO TO 90
+      IF (MM.NE.M1+M2) GO TO 100
+      IF (MM.EQ.0) GO TO 100
+      GO TO 80
+   50 IF (M1) 70,150,60
+   60 IF (MM.EQ.M2-M1) GO TO 110
+      IF (MM.NE.-M1-M2) GO TO 100
+      IF (MM.EQ.0) GO TO 100
+      GO TO 130
+   70 IF (MM.EQ.-M1-M2) GO TO 130
+      IF (MM.NE.M2-M1) GO TO 100
+      IF (MM.EQ.0) GO TO 120
+      GO TO 110
+   80 FACTOR=ROOT2
+      GO TO 150
+   90 FACTOR=ROOT2
+      MT2=-M2
+      GO TO 150
+  100 CGCOEF=ZERO
+      GO TO 160
+  110 FACTOR=ROOT2
+  120 MT1=-M1
+      GO TO 150
+  130 FACTOR=-ROOT2
+      MT1=-M1
+  140 MT2=-M2
+  150 CGCOEF=CGC(NDXCGC(MM,MT1,MT2,LL,L1,L2))/FACTOR
+  160 IF (.NOT.QSWTCH) RETURN
+      M1=M1SAV
+      M2=M2SAV
+      L1=L1SAV
+      L2=L2SAV
+      RETURN
+      END

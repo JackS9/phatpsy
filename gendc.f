@@ -1,0 +1,104 @@
+      SUBROUTINE GENDC(D,LMAX)
+      IMPLICIT REAL*8(A-H,O,P,R-Z),LOGICAL*1(Q)
+C-----------------------------------------------------------------------
+C
+C     GENDC...
+C
+C        THIS ROUTINE RETURNS AN ARRAY OF D-COEFICIENTS USED IN THE
+C     TRANSFORMATION OF COMPLEX SPHERICAL HARMONICS BY A COUNTERCLOCK-
+C     WISE ROTATION OF BETA ABOUT THE Y-AXIS, I.E.
+C
+C           Y'(L,M) = SUM(ISIGMA) D(L,M,ISIGMA;T)*Y(L,ISIGMA)
+C                       -L -> L
+C
+C             T = COS(BETA)
+C
+C     THEIR STORAGE AND RETRIEVAL ARE DETERMINED BY 'NDXD' AND 'DCOEF'.
+C
+C     OTHER DEFINITIONS:
+C
+C        D(NDXD(L,M,ISIGMA),1).... D(L,M,ISIGMA,T)
+C        D(NDXD(L,M,ISIGMA),2).... D(L,M,ISIGMA,-T)
+C        D(*,*).... D(NDXD(0,0,0),1) -> D(NDXD(LMAX,LMAX,LMAX),2)
+C        ALPH...... LONGITUDINAL ANGLE (ABOUT Z-AXIS).  USED BY 'DCOEF'
+C                   FOR ROTATING REAL SPHERICAL HARMONICS.
+C        BETA.......THE ANGLE OF ROTATION ABOUT THE Y-AXIS.
+C        LMAX...... MAXIMUM VALUE OF L ENCOUNTERED FOR ANGLE BETA.
+C        L3MX...... DIMENSION OF D(*,*).
+C        DQUOT(N,M)... REAL QUOTIENT OF TWO INTEGERS (A.S.F.).
+C        ZSQRT(N)..... REAL SQRT OF AN INTEGER (A.S.F.).
+C
+C     COMMON USAGE:
+C
+C        /PARMS/  USES - IPARM(28)(=L3MX),
+C                        APARM(9)(=ALPHA),  IPARM(10)(=BETA),
+C
+C     ROUTINES CALLED:  NDXD, DERASE; DSQRT, DFLOAT, DCOS,
+C                       DABS
+C
+C-----------------------------------------------------------------------
+      COMMON /PARMS/ APARM(20),IPARM(50),QPARM(50)
+      EQUIVALENCE (IPARM(28),L3MX)
+      EQUIVALENCE (APARM(9),ALPHA),   (APARM(10),BETA)
+      DIMENSION D(L3MX,2)
+      DATA ZERO/0.D0/,ONE/1.D0/,SIGNIF/1.D-5/
+      ZSQRT(N)=DSQRT(DFLOAT(N))
+      DQUOT(N,M)=DFLOAT(N)/DFLOAT(M)
+      LMXP1=LMAX+1
+      T=DCOS(BETA)
+      QTTEQ1=.FALSE.
+      IF (DABS(T*T-ONE).LT.SIGNIF) QTTEQ1=.TRUE.
+      CALL DERASE(D,L3MX*2)
+      D(1,1)=ONE
+      D(1,2)=ONE
+      IF (LMAX.LE.0) RETURN
+      D(2,1)=T
+      D(2,2)=-T
+      IF (.NOT.QTTEQ1) CSIGT=DSQRT((ONE+T)/(ONE-T))
+      DO 90 IM=1,LMXP1
+      M=IM-1
+      IF ((M.EQ.0).OR.QTTEQ1) GO TO 10
+      CM=-DSQRT(DQUOT(2*M-1,2*M)*(ONE-T*T))
+      DM1=D(NDXD(M-1,M-1,0),1)*CM
+      D(NDXD(M,M,0),1)=DM1
+      D(NDXD(M,M,0),2)=DM1
+   10 CONTINUE
+      DO 80 IS=1,IM
+      ISIGMA=IS-1
+      IF ((ISIGMA.EQ.0).OR.QTTEQ1) GO TO 20
+      CSIGM=-DSQRT(DQUOT(M-ISIGMA+1,M+ISIGMA))
+      D(NDXD(M,M,ISIGMA),1)=CSIGM*CSIGT*D(NDXD(M,M,ISIGMA-1),1)
+      D(NDXD(M,M,ISIGMA),2)=CSIGM/CSIGT*D(NDXD(M,M,ISIGMA-1),2)
+   20 CONTINUE
+      IF (QTTEQ1.AND.(T.GT.ZERO).AND.(ISIGMA.EQ.M).AND.(M.NE.0))
+     X     D(NDXD(M,M,M),1)=ONE
+      IF (QTTEQ1.AND.(T.LT.ZERO).AND.(ISIGMA.EQ.M).AND.(M.NE.0))
+     X     D(NDXD(M,M,M),2)=ONE
+      IF (IM.GT.LMAX) GO TO 80
+      DO 70 IL=IM,LMAX
+      L=IL-1
+      IF (QTTEQ1) GO TO 40
+      IF (L.EQ.0) GO TO 70
+      CL1=ZSQRT((L+ISIGMA+1)*(L-ISIGMA+1)*(L+M+1)*(L-M+1))/DFLOAT(L+1)
+      CL2=DQUOT(M*ISIGMA,L*(L+1))
+      IF (L.NE.M) CL3=ZSQRT((L+ISIGMA)*(L-ISIGMA)*(L+M)*(L-M))/DFLOAT(L)
+      D1=(2*L+1)*(T-CL2)*D(NDXD(L,M,ISIGMA),1)
+      D2=-(2*L+1)*(T+CL2)*D(NDXD(L,M,ISIGMA),2)
+      IF (L.EQ.M) GO TO 30
+      D1=D1-CL3*D(NDXD(L-1,M,ISIGMA),1)
+      D2=D2-CL3*D(NDXD(L-1,M,ISIGMA),2)
+   30 D(NDXD(L+1,M,ISIGMA),1)=D1/CL1
+      D(NDXD(L+1,M,ISIGMA),2)=D2/CL1
+      GO TO 70
+   40 IF (M.NE.ISIGMA) GO TO 70
+      IF (T) 60,70,50
+   50 D(NDXD(L+1,M,M),1)=ONE
+      IF (M.EQ.0) D(NDXD(L+1,0,0),2)=(-ONE)**(L+1)
+      GO TO 70
+   60 IF (M.EQ.0) D(NDXD(L+1,0,0),1)=(-ONE)**(L+1)
+      D(NDXD(L+1,M,M),2)=ONE
+   70 CONTINUE
+   80 CONTINUE
+   90 CONTINUE
+      RETURN
+      END

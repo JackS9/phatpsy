@@ -1,0 +1,55 @@
+      SUBROUTINE INTNRM(EVEC,PROJEC,SCRAT,NBAS,NVEC,N2BAS)
+      IMPLICIT REAL*8(A-H,O-Z)
+C-----------------------------------------------------------------------
+C
+C     INTNRM...
+C
+C        THIS ROUTINE NORMALIZES A SET OF VECTORS ACCORDING TO
+C     THE INTERMEDIATE NORMALIZATION
+C
+C        <I!(1-P)!I> = 1
+C
+C     WHERE P IS A PROJECTION OPERATOR OF THE FORM
+C
+C        SUM(K) !K><K!
+C
+C     VARIABLE DEFINITIONS:
+C
+C        EVEC(*,*)..... ARRAY OF COLUMN VECTORS TO NORMALIZED. (ASSUMED
+C                       TO BE NORMALIZED IN THE USUAL SENSE ALREADY).
+C        PROJEC(*)..... MATRIX ELEMENTS OF THE PROJECTION OPERATOR. (IN
+C                       PACKED FORM).
+C        SCRAT(*,*).... A SCRATCH ARRAY FOR INTERMEDIATE STORAGE.
+C        NBAS.......... ORDER OF BASIS.  COLUMN DIMENSION OF EVEC(*,*).
+C        NVEC.......... NUMBER OF VECTORS.  ROW DIMESION OF EVEC(*,*).
+C        N2BAS......... =NBAS*(NBAS+1)/2, DIMENSION OF PROJEC(*).
+C
+C     ROUTINES CALLED:  DSQRT
+C
+C-----------------------------------------------------------------------
+      DIMENSION EVEC(NBAS,NVEC),PROJEC(N2BAS),SCRAT(NBAS,NBAS)
+      DATA ZERO/0.0D0/,ONE/1.D0/
+      DO 30 N=1,NVEC
+      DO 20 I=1,NBAS
+      II=(I*(I-1))/2
+      SUM=ZERO
+      DO 10 J=1,NBAS
+      IJ=II+J
+      IF (J.GT.I) IJ=I+(J*(J-1))/2
+      SUM=SUM+PROJEC(IJ)*EVEC(J,N)
+   10 CONTINUE
+      SCRAT(I,N)=SUM
+   20 CONTINUE
+   30 CONTINUE
+      DO 60 N=1,NVEC
+      SUM=ONE
+      DO 40 I=1,NBAS
+      SUM=SUM-EVEC(I,N)*SCRAT(I,N)
+   40 CONTINUE
+      VNORM=ONE/DSQRT(SUM)
+      DO 50 I=1,NBAS
+      EVEC(I,N)=EVEC(I,N)*VNORM
+   50 CONTINUE
+   60 CONTINUE
+      RETURN
+      END
