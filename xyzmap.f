@@ -24,7 +24,7 @@ C
 C-----------------------------------------------------------------------
       DIMENSION COORD(3,NATOM),LATOM(NATOM),MAP(21,3,21)
       DATA MAPDIM/21/
-      DATA IBLANK/2H  /
+      DATA IBLANK/'  '/
 C-----------------------------------------------------------------------
 C
 C     DEFINE VALID RANGE LOGICAL FUNCTION.

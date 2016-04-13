@@ -1,19 +1,24 @@
-# 
-# PHATPSY
+##
+# PHATPSY on Big Green @ Marshall University
 # - Jack A Smith
+##
+FC 		= gfortran
+#FC		= ifort
+FFLAGS 		= -O2 -pg -static
 #
-FC 	= gfortran
-FFLAGS 	= -O2 -pg -static
-#
-GNUDIR 	= /opt/lapack/gnu/lib
+GNU_PATH 	= /opt/lapack/gnu/lib
+GNU_INCLUDE	= /opt/lapack/gnu/include
 GNU_BLAS_LIBS 	= -lblas
 GNU_LAPACK_LIBS = -llapack
 GNU_SCALAPACK_LIBS = -lscalapack
-GNU_FLIBS 	= -L${GNUDIR} ${GNU_BLAS_LIBS} ${GNU_LAPACK_LIBS} ${GNU_SCALAPACK_LIBS}
+GNU_FLIBS 	= -L${GNU_PATH} ${GNU_BLAS_LIBS} ${GNU_LAPACK_LIBS} ${GNU_SCALAPACK_LIBS} \
+		  -I${GNU_INCLUDE}
 #
-MKLDIR	= ${MKLROOT}/lib/intel64
+MKL_PATH	= ${MKLROOT}/lib/intel64
+MKL_INCLUDE 	= ${MKLROOT}/include
+
 # Intel ifort compiler
-#MKL_BLAS_LIBS 	= -lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core
+#MKL_BLAS_LIBS 	= -lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core -lpthread -lm 
 # GNU gfortran compiler
 # Sequential BLAS
 #MKL_BLAS_LIBS 	= -lmkl_gf_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl
@@ -21,7 +26,8 @@ MKLDIR	= ${MKLROOT}/lib/intel64
 MKL_BLAS_LIBS 	= -lmkl_gf_lp64 -lmkl_gnu_thread -lmkl_core -lpthread -lm -ldl
 MKL_LAPACK_LIBS = -lmkl_blacs_openmpi_lp64
 MKL_SCALAPACK_LIBS = -lmkl_scalapack_lp64 
-MKL_FLIBS 	= -L${MKLDIR} ${MKL_BLAS_LIBS} ${MKL_LAPACK_LIBS} ${MKL_SCALAPACK_LIBS}
+MKL_FLIBS 	= -L${MKL_PATH} ${MKL_BLAS_LIBS} ${MKL_LAPACK_LIBS} ${MKL_SCALAPACK_LIBS} \
+		  -I${MKL_INCLUDE}
 #
 FLIBS	= ${MKL_FLIBS}
 OBJS 	= absum.o addmat.o aloop.o analys.o anmbnm.o arrmap.o ascale.o asum.o atomic.o averag.o bloop.o \

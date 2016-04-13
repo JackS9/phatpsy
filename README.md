@@ -16,3 +16,13 @@ PHATPSY - Projected Hamiltonian Approach to Polyatomic Systems
  * To test:
 
   ./phatpsy \<n2.stdin \>n2.stdout
+
+ * To use Makefile (with MKL libraries)
+
+  module load mkl  # once only
+  make
+  make test
+
+  make clean  # optional
+  make
+  make test
