@@ -17,12 +17,18 @@ PHATPSY - Projected Hamiltonian Approach to Polyatomic Systems
 
   ./phatpsy \<n2.stdin \>n2.stdout
 
- * To use Makefile (with MKL libraries)
+ * To use MKL Libraries and Makefile first time
 
   module load mkl  # once only
+
   make
+
   make test
 
+ * To use MKL Libraries and Makefile subsequent times 
+
   make clean  # optional
+
   make
+
   make test
