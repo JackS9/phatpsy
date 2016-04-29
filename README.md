@@ -5,30 +5,25 @@ PHATPSY - Projected Hamiltonian Approach to Polyatomic Systems
 
   git clone https://github.com/JackS9/phatpsy.git
   
- * To compile:
+ * To compile (without Makefile):
 
   gfortran -c *.f
 
- * To build:
+ * To build (without Makefile):
 
   gfortran *.o -o phatpsy
 
- * To test:
+ * To test (without Makefile):
 
   ./phatpsy \<n2.stdin \>n2.stdout
 
- * To use MKL Libraries and Makefile first time
+ * To use Makefile and access MKL Libraries
 
-  module load mkl  # once only
-
-  make
-
-  make test
-
- * To use MKL Libraries and Makefile subsequent times 
-
+  module load mkl  # once only after logging in
+  
   make clean  # optional
-
+  
   make
 
   make test
+
