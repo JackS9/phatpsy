@@ -19,11 +19,8 @@ PHATPSY - Projected Hamiltonian Approach to Polyatomic Systems
 
  * To use Makefile and access MKL Libraries
 
-  module load mkl  # once only after logging in
-  
-  make clean  # optional
-  
-  make
-
-  make test
+   + module load mkl  # once only after logging in
+   +  make clean  # optional
+   + make
+   + make test
 
