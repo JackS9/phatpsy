@@ -1,0 +1,6 @@
+#!/bin/sh
+
+/usr/bin/invoke_app "$@" -t phatpsy \
+                         -C phatpsy \
+                         -c filexfer \
+                         -w captive
