@@ -7,20 +7,21 @@ PHATPSY - Projected Hamiltonian Approach to Polyatomic Systems
   
  * To compile (without Makefile):
 
-  gfortran -c *.f
+  gfortran -c src/*.f
 
  * To build (without Makefile):
 
-  gfortran *.o -o phatpsy
+  gfortran src/*.o -o bin/phatpsy
 
  * To test (without Makefile):
 
-  ./phatpsy \<n2.stdin \>n2.stdout
+  ./bin/phatpsy \<examples/n2.stdin \>data/n2.stdout
 
  * To use Makefile and access MKL Libraries
 
    + module load mkl  # once only after logging in
-   +  make clean  # optional
+   + cd src
+   + make clean  # optional
    + make
    + make test
 
