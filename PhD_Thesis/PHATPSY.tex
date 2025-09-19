@@ -1,0 +1,1140 @@
+\documentclass[12pt,letterpaper]{report}
+
+% Essential packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{tocloft}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{cite}
+\usepackage{hyperref}
+
+% Page setup
+\geometry{
+    letterpaper,
+    left=1.5in,
+    right=1in,
+    top=1in,
+    bottom=1in
+}
+
+% Double spacing for dissertation format
+\doublespacing
+
+% Chapter title formatting
+\titleformat{\chapter}[display]
+{\normalfont\huge\bfseries\centering}
+{\chaptertitlename\ \thechapter}{20pt}{\Huge}
+
+% Header and footer setup
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+
+% Start of document
+\begin{document}
+
+% Title page
+\begin{titlepage}
+    \centering
+    \vspace*{1in}
+    {\LARGE A PROJECTED HAMILTONIAN APPROACH\\[0.2in]
+    TO POLYATOMIC SYSTEMS\\[1in]}
+    
+    By\\[0.5in]
+    
+    {\large JACK A. SMITH}\\[1in]
+    
+    A DISSERTATION PRESENTED TO THE GRADUATE COUNCIL OF\\
+    THE UNIVERSITY OF FLORIDA\\
+    IN PARTIAL FULFILLMENT OF THE REQUIREMENTS FOR THE\\
+    DEGREE OF DOCTOR OF PHILOSOPHY\\[1in]
+    
+    UNIVERSITY OF FLORIDA\\[0.3in]
+    1978
+\end{titlepage}
+
+% Dedication page
+\newpage
+\thispagestyle{empty}
+\vspace*{3in}
+\begin{center}
+\textit{To Malissa}
+\end{center}
+
+% Acknowledgements
+\newpage
+\chapter*{ACKNOWLEDGEMENTS}
+\addcontentsline{toc}{chapter}{ACKNOWLEDGEMENTS}
+
+I would like to acknowledge the guidance and assistance given by Professor Yngve Öhrn in the course of this work. I also wish to take this opportunity to thank all the members of the Quantum Theory Project for such a stimulating environment in which to work and study. I owe special thanks to Professor Per-Olov Löwdin for providing me the many opportunities to attend summer schools, winter schools, symposia and the like in such places as Sweden, Norway, Belgium, Sanibel Island, Palm Coast and last, but not least, Gainesville.
+
+I also acknowledge the financial support of the Northeast Regional Data Center, the Air Force Office of Scientific Research (AFOSR - 74-2656C), and the National Science Foundation (NSF - CHE74-03948, SHI76-23036).
+
+% Table of Contents
+\tableofcontents
+
+% List of Tables
+\newpage
+\addcontentsline{toc}{chapter}{LIST OF TABLES}
+\chapter*{LIST OF TABLES}
+\begin{enumerate}
+    \item Basis sets for nitrogen and oxygen \dotfill 62
+    \item Model potential exponents for nitrogen and oxygen \dotfill 62
+    \item Calculated and experimental ionization potentials for nitric oxide (X$^2\Pi$) \dotfill 66
+    \item Calculated and experimental spectroscopic constants for nitric oxide (X$^2\Pi$) \dotfill 77
+    \item Basis set for nickel \dotfill 83
+    \item Model potential exponents for nickel \dotfill 83
+    \item Calculated and experimental core(1s) binding energies for nitric oxide on nickel(100) surface \dotfill 102
+    \item Calculated spectroscopic constants for nitric oxide on nickel(100) surface \dotfill 105
+\end{enumerate}
+
+% List of Figures
+\newpage
+\addcontentsline{toc}{chapter}{LIST OF FIGURES}
+\chapter*{LIST OF FIGURES}
+\begin{enumerate}
+    \item Electronic and nuclear coordinates for the diatomic molecule A-B \dotfill 6
+    \item Calculated and experimental photoelectron spectra for nitric oxide (X$^2\Pi$) \dotfill 66
+    \item ``Hidden-line'' plots of the atomic orbitals on the nitrogen atom \dotfill 71
+    \item ``Hidden-line'' plots of the atomic orbitals on the oxygen atom \dotfill 73
+    \item Calculated and experimental (Morse) potential energy curves for nitric oxide (X$^2\Pi$) \dotfill 76
+    \item Cluster models for the bulk, surface, and four-fold hole adsorption site \dotfill 82
+    \item Calculated photoelectron spectra of nickel (atom), nickel (metal), and nickel (surface) \dotfill 85
+    \item Total density contours for nitric oxide (top) and nitric oxide on nickel(100) surface (bottom) \dotfill 93
+    \item Sigma density contours for nitric oxide (top) and nitric oxide on nickel(100) surface (bottom) \dotfill 95
+    \item Pi density contours for nitric oxide (top) and nitric oxide on nickel(100) surface (bottom) \dotfill 97
+    \item Calculated photoelectron spectra of nitric oxide on nickel(100) surface \dotfill 100
+    \item Calculated potential energy curves for nitric oxide (2$\Sigma$) and nitric oxide on nickel(100) surface (*) \dotfill 104
+\end{enumerate}
+
+% Abstract
+\newpage
+\chapter*{ABSTRACT}
+\addcontentsline{toc}{chapter}{ABSTRACT}
+
+\noindent\textit{Abstract of Dissertation Presented to the Graduate Council of the University of Florida in Partial Fulfillment of the Requirements for the Degree of Doctor of Philosophy}
+
+\vspace{0.5in}
+
+\begin{center}
+{\large\textbf{A PROJECTED HAMILTONIAN APPROACH\\TO POLYATOMIC SYSTEMS}}
+
+\vspace{0.3in}
+
+by\\
+Jack A. Smith\\
+June 1978
+
+\vspace{0.3in}
+
+Chairman: Yngve Öhrn\\
+Major Department: Chemistry
+\end{center}
+
+\vspace{0.3in}
+
+A method of treating polyatomic systems, finite or extended, is presented which fully exploits their ``atom-in-molecule'' nature. Within an independent-particle model a partitioning technique is applied to the projection of the full polyatomic space into many atomic subspaces. The subspaces are then each coupled to one another approximately through second-order in overlap in a piecewise self-consistent fashion. The inherent localized picture allows for an approximate form of the interatomic interactions without resorting to neglect of any differential overlap or use of any empirical parameters. Molecular orbitals and energies may be obtained from an approximate electron propagator which is based on a model Hamiltonian built up from atomic one-electron Hamiltonians in diagonal form. Symmetric orthonormalization of these orbitals gives a density matrix which can be used as a guide for charge redistribution within the system. A generalization of the Hartree-Fock approximation based on a statistical ensemble is employed which permits the use of fractional occupation numbers in the atomic configurations. Application of the method here includes the nitric oxide molecule and its chemisorption on a nickel(100) surface.
+
+% Main content begins
+\newpage
+\pagenumbering{arabic}
+
+\chapter{INTRODUCTION}
+
+In the quantum mechanical treatment of polyatomic systems, whether they be finite or extended, one feature consistently emerges, and that is they appear to be built up from ``atoms''. The reasonable success of the cellular (Slater, 1934), valence-bond (VB) (Gerratt, 1974), atom-in-molecule (AIM) (Moffitt, 1951), and similar building-block (Adams, 1971; Gilbert, 1972) approaches is indebted to this feature. However, as one progresses from atoms to molecules serious complications are encountered in the numerical and analytic techniques which have been so successfully applied to atoms. These complications are largely due to the loss of spherical symmetry and one-center expansions. For numerical techniques, the threat of multidimensional integrations and quadratures has led to cellular approximations to the potential (Slater, 1934) and local approximations to the exchange interactions (Slater, 1971). On the other hand, analytic methods are faced with the tremendous number of complicated multicenter two-electron integrals, and one is usually forced to sacrifice both quality and quantity in the selection of basis sets (Dunning and Hay, 1977). The exclusion of core electrons by means of effective potentials (Kahn et al., 1976) has become a popular means of reducing the number of integrals. A whole gamut of semiempirical methods have also been devised and constantly revised to help overcome these difficulties.
+
+One wonders, though, whether or not the ability to even describe the ``atoms'' within a system is lost in all these sacrifices. This brings us to the theme of the present work. We wish to maintain as much as possible a complete and accurate description of the ``atoms'' in a system at the controlled expense of an approximate, but sufficiently rigorous, nonempirical treatment of the interatomic interactions. Some corollaries to this theme will be to keep intact the molecular Hamiltonian while partitioning the discrete eigenspace (the finite space spanned by the discrete eigenfunctions) of an effective one-electron operator; to employ analytic techniques enabling proper treatment of the exchange interactions; to use suitable basis sets, such as Slater-type orbitals (STO's) of at least ``double-zeta'' (DZ) quality with polarization functions (DZP) when needed; to correctly compute and retain all one-center integrals and all two-center one-electron integrals; to reduce all multicenter two-electron integrals to two-center one-electron integrals by exploiting the localized picture, but without resorting to empiricism or neglect of any differential overlap; and to establish atomic valency as a better-defined and workable concept.
+
+In the next chapter the effective one-electron Hamiltonian operator and the partitioning of its eigenspace will be developed. Chapter III will deal more explicitly with the pseudopotential which is derived from the partitioning in chapter II. The approximate forms of the interatomic Coulombic and exchange interactions are given in chapters IV and V. Chapter VI is devoted to the piecewise construction of a model molecular one-electron Hamiltonian which when used in the moment expansion of the electron propagator gives rise to a model Fock matrix as its first moment. Solution of the corresponding eigenvalue problem is discussed together with an appropriate population analysis for redistributing electronic charge. In chapter VII a more general form of the Hartree-Fock approximation is described which allows for the definition of a self-consistent potential from a density corresponding to a statistical ensemble with specified occupation numbers. The problem of spin-orbital occupation assignments is the topic of chapter VIII. In chapter IX the method is applied to nitric oxide and its chemisorption on a nickel(100) surface. Separate treatments for the nitric oxide molecule, the nickel metal, and the nickel(100) surface are included to emphasize the applicability of the method to various systems. The final chapter is a general discussion of some pros and cons of the method and some ideas for future work to alleviate any shortcomings the method might have.
+
+\chapter{THE EFFECTIVE ONE-ELECTRON OPERATOR AND THE PARTITIONING OF ITS EIGENSPACE}
+
+In order to illustrate the partitioning of a polyatomic system into many atomic subspaces it is sufficient, at least for the moment, to consider a diatomic molecule, A-B. In much of what is about to follow, specific attention will be focused on the case of a diatomic molecule. This is done strictly for clarity, and generalization to polyatomic systems shall be made at various times. The method is by no means restricted to diatomic molecules, even though its generalization might not appear obvious at times. In connection with this, we will mostly be concentrating on a single atom (A) at any one time, while the remaining atoms (B) will be considered as its environment. We shall usually denote this by the use of superscripts A or B, respectively; but when no specific reference is made, atom A is to be assumed. For cases other than diatomics, primes will also be used.
+
+The average value of the nonrelativistic many-electron Hamiltonian, with respect to a proper choice of density operator (see chapters VI and VII), for the diatomic molecule can be written in second quantization as
+\begin{align}
+\langle H \rangle &= \sum_i h_i^{(A)} \langle a_i^+ a_i \rangle + \frac{1}{2} \sum_{ij} (J_{ij}^{AA} - K_{ij}^{AA}) \langle a_i^+ a_j^+ a_j a_i \rangle \nonumber\\
+&\quad + \sum_i h_i^{(B)} \langle b_i^+ b_i \rangle + \frac{1}{2} \sum_{ij} (J_{ij}^{BB} - K_{ij}^{BB}) \langle b_i^+ b_j^+ b_j b_i \rangle \nonumber\\
+&\quad + \frac{1}{2} \sum_i \sum_j (J_{ij}^{AB} - K_{ij}^{AB}) \langle a_i^+ b_j^+ b_j a_i \rangle \nonumber\\
+&\quad + \frac{1}{2} \sum_j \sum_i (J_{ji}^{BA} - K_{ji}^{BA}) \langle b_j^+ a_i^+ a_i b_j \rangle
+\end{align}
+where the $a$'s and $b$'s are field operators corresponding to spin-orbitals assigned to atoms A and B, respectively, and the summations have been restricted accordingly. Let us assume that the spin-orbitals assigned to atom A are expanded in a basis centered on A and the spin-orbitals assigned to atom B are likewise centered on B. Such a total energy functional leads to the effective one-electron operator
+\begin{equation}
+F = -\frac{1}{2}\nabla^2 - Z^A r_{1A}^{-1} + J^A - K^A - Z^B r_{1B}^{-1} + J^B - K^B
+\end{equation}
+where the Coulomb and exchange operators associated with center A are defined by
+\begin{equation}
+J^A \phi(1) = \sum_i q_i^{(A)} \langle \phi_i^A | r_{12}^{-1} | \phi_i^A \rangle \phi(1)
+\end{equation}
+and
+\begin{equation}
+K^A \phi(1) = \sum_i q_i^{(A)} \langle \phi_i^A | r_{12}^{-1} | \phi \rangle \phi_i^A(1)
+\end{equation}
+where the Dirac brackets here denote integration over the coordinates of electron 2 and summation over its spin. The $q$'s are the spin-orbital occupation numbers. Analogous definitions for the Coulomb and exchange operators on atom B are assumed. The spin-orbitals are now restricted to be eigensolutions to a pseudoeigenvalue problem,
+\begin{equation}
+F \phi(1) = \varepsilon \phi(1),
+\end{equation}
+although they must be solved for self-consistently since the operator depends on them through the Coulomb and exchange operators.
+
+At this point we have done nothing but invoke the Hartree-Fock approximation with the only twist being the localized restriction on the spin-orbitals. The canonical Hartree-Fock scheme would require that the spin-orbitals be symmetry-adapted, that is, invariant (except possibly a change in sign) under the operations of the molecular symmetry point group. This, of course, is an unnecessary, but convenient, restriction. Only the total state need be invariant, and such invariance can be achieved with equivalent orbitals (Hurley et al., 1953), which transform into each other under the operations of the group. Such orbitals are more general and can usually be well-localized. We shall use such localized equivalent orbitals in our treatment and restrict, instead, our spin-orbitals to be centered on a single atomic site. So each ``molecular'' spin-orbital will be associated unambiguously to a specific atom.
+
+We wish now to simulate an atom-in-molecule partitioning of the pseudoeigenvalue problem in (II-5). To effect the partitioning, let us look at the diatomic molecule A-B at very large interatomic separation where the fifth and sixth terms in (II-1) become negligible and the eigenfunctions of F in (II-2) approach the atomic canonical Hartree-Fock spin-orbitals associated with the two eigenvalue problems
+\begin{equation}
+F^A \phi_i^A[0] = \left\{-\frac{1}{2}\nabla^2 - Z^A r_{1A}^{-1} + J^A[0] - K^A[0]\right\} \phi_i^A[0]
+\end{equation}
+and
+\begin{equation}
+F^B \phi_i^B[0] = \left\{-\frac{1}{2}\nabla^2 - Z^B r_{1B}^{-1} + J^B[0] - K^B[0]\right\} \phi_i^B[0]
+\end{equation}
+where the [0] denotes this separated-atom case (dropping the reference to electron 1 on the operators and the functions). It should be emphasized that this limiting feature is a consequence of the localized form which we have chosen and that the canonical molecular orbitals would have separated rather unpredictably (particularly where high symmetry exists).
+
+Now as we allow the two atoms to approach each other and interact, let us focus our attention on a specific atom, say A. Suppose that instead of solving (II-2) for all of its eigensolutions, we seek only those solutions which we associate with atom A, while the solutions of (II-7) for atom B are assumed to suffice, for the moment, as the solutions of (II-2) associated with atom B. That is, we wish to solve the pseudoeigenvalue problem
+\begin{align}
+F \phi_i^A[1] &= \bigg\{-\frac{1}{2}\nabla^2 - Z^A r_{1A}^{-1} + J^A[1] - K^A[1] \nonumber\\
+&\quad - Z^B r_{1B}^{-1} + J^B[0] - K^B[0]\bigg\} \phi_i^A[1]
+\end{align}
+for all the functions centered on A, while holding the functions on B fixed as though they were already self-consistent eigenfunctions of F in (II-2). The [1] here denotes the first iterate of this higher-level self-consistent process. In order for the functions on both centers A and B to be simultaneous eigenfunctions of F, they must be noninteracting through F, that is,
+\begin{equation}
+\langle \phi_i^A | F | \phi_j^B \rangle = 0
+\end{equation}
+must be satisfied. It is sufficient, though, that they be orthogonal,
+\begin{equation}
+\langle \phi_i^A[1] | \phi_j^B[0] \rangle = 0, \quad \forall i,j,
+\end{equation}
+if either is in fact an eigenfunction.
+
+We obviously could have just as easily chosen to concentrate on atom B and ended up with the eigenvalue problem
+\begin{align}
+F \phi_i^B[1] &= \bigg\{-\frac{1}{2}\nabla^2 - Z^B r_{1B}^{-1} + J^B[1] - K^B[1] \nonumber\\
+&\quad - Z^A r_{1A}^{-1} + J^A[0] - K^A[0]\bigg\} \phi_i^B[1]
+\end{align}
+subject to the constraints
+\begin{equation}
+\langle \phi_i^A[0] | \phi_j^B[1] \rangle = 0, \quad \forall i,j.
+\end{equation}
+
+This would give us a full set of functions, $\phi[1]$'s, corresponding to our first level of iteration. It is fairly easy to see how one could continue this reasoning to obtain a set of $\phi[2]$'s from the $\phi[1]$'s, and so on, until some degree of convergence is attained, that is, until
+\begin{align}
+\phi_i^A[n] &\rightarrow \phi_i^A[n-1], \nonumber\\
+\phi_i^B[n] &\rightarrow \phi_i^B[n-1],
+\end{align}
+and we satisfy the orthogonality conditions
+\begin{equation}
+\langle \phi_i^A[n] | \phi_j^B[n] \rangle = 0, \quad \forall i,j.
+\end{equation}
+
+Getting back now to the problem of handling the additional constraints on the pseudoeigenvalue problem, we intend to treat this problem with the projection operator technique (Löwdin, 1961). The preceding development and much of what is about to follow could just as well have been treated with partitioning technique (Löwdin, 1964), but we shall dispense with this equivalent approach for the time being. Let us start by considering a general unconstrained function whose projection is the desired function,
+\begin{equation}
+\phi_i^A = \tilde{\phi}_i^A - \sum_j \langle \phi_j^B | \tilde{\phi}_i^A \rangle \phi_j^B = (1 - P_B) \tilde{\phi}_i^A
+\end{equation}
+where
+\begin{equation}
+P_B = \sum_j |\phi_j^B \rangle \langle \phi_j^B|
+\end{equation}
+is the projection operator which projects out the ``B-part'' of the functions on A. Condition (II-14) in terms of the unconstrained functions (dropping now the [n]-notation at self-consistency) becomes automatically satisfied.
+
+The eigenvalue problem associated with atom A in terms of these unconstrained functions would be
+\begin{equation}
+F(1 - P_B) \tilde{\phi}_i^A = \varepsilon_i^A (1 - P_B) \tilde{\phi}_i^A,
+\end{equation}
+and the secular problem would then become
+\begin{equation}
+|\langle \tilde{\phi}_i^A | (1 - P_B)(F - \varepsilon)(1 - P_B) | \tilde{\phi}_i^A \rangle| = 0.
+\end{equation}
+
+Thus, we have transferred the restriction on the eigenfunctions to a modification of the operator. We therefore seek instead the unconstrained solutions to a projected Hamiltonian. The analogous secular problem associated with atom B would be
+\begin{equation}
+|\langle \tilde{\phi}_j^B | (1 - P_A)^+ (F - \varepsilon)(1 - P_A) | \tilde{\phi}_j^B \rangle| = 0
+\end{equation}
+with analogous definitions for the unconstrained functions on atom B and for the projection operator associated with the ``A-part'' of A-B.
+
+If we rewrite equations (II-19) and (II-20) with the unprojected operator F separated out, we get (Weeks et al., 1969)
+\begin{equation}
+|\langle \tilde{\phi}_i^A | F + V_A - \varepsilon | \tilde{\phi}_i^A \rangle| = 0
+\end{equation}
+and
+\begin{equation}
+|\langle \tilde{\phi}_j^B | F + V_B - \varepsilon | \tilde{\phi}_j^B \rangle| = 0
+\end{equation}
+where the pseudopotentials are given by
+\begin{equation}
+V_A = -(P_B F - \varepsilon P_B)(2 - P_B) - [F, P_B]
+\end{equation}
+and
+\begin{equation}
+V_B = -(P_A F - \varepsilon P_A)(2 - P_A) - [F, P_A].
+\end{equation}
+
+It should be noted that the second term in (II-23) and (II-24) will vanish if the operator F commutes with the projection operators, that is,
+\begin{equation}
+[F, P_A] = [F, P_B] = 0.
+\end{equation}
+Furthermore, if the ``projection'' operators are truly idempotent, then these pseudopotentials reduce to
+\begin{equation}
+V_A = -(F - \varepsilon)P_B
+\end{equation}
+and
+\begin{equation}
+V_B = -(F - \varepsilon)P_A.
+\end{equation}
+
+As the problem has been formulated so far, both of these requirements are fulfilled, but these terms shall be retained for reasons which will be clarified later.
+
+At this point the diatomic problem has been effectively reduced to two coupled atomic problems without any serious approximations outside the independent-particle model or limitations imposed on the basis, but we still have not really simplified the problem with respect to size or effort either. We have merely reformulated the problem to prompt new insight.
+
+The fact that we have not yet gained anything is evident when we realize that the Coulomb, exchange and projection operators are all defined in terms of the constrained functions and that the unconstrained functions are neither eigenfunctions of F nor orthonormal. Although the unconstrained eigenfunctions of our modified operators
+\begin{equation}
+(F + V_A) \tilde{\phi}_i^A = \varepsilon_i^A \tilde{\phi}_i^A
+\end{equation}
+\begin{equation}
+(F + V_B) \tilde{\phi}_i^B = \varepsilon_i^B \tilde{\phi}_i^B
+\end{equation}
+share a common set of eigenvalues with the constrained eigenfunctions of F (Weeks et al., 1969), they are not simultaneous eigenfunctions of the same operator. Since the eigenfunctions on different centers correspond to different operators, they need not be orthogonal. In fact, because of the energy dependence of the pseudopotentials, all the eigenfunctions should, in principle, correspond to different operators. This energy dependence of the pseudopotentials will be taken up in the next chapter.
+
+In principle, one could solve directly for the unconstrained eigenfunctions of the modified operator and then regenerate the constrained eigenfunctions of F, from which one could obtain new Coulomb, exchange and projection operators (and a total energy). However, this reintroduces multicenter additions to our otherwise single-center unconstrained functions, and thus multicenter integrals, which is precisely what we have set out to avoid. This brings us to our first major approximation.
+
+In the beginning, we assumed that each spin-orbital could be unambiguously assigned to a particular atom and, more importantly, expanded in a single-center basis. Our unconstrained eigenfunctions have this property imposed on them directly by limiting the basis in the solution of the projected eigenvalue problem. However, as we have just noted above, this indirectly forces the constrained eigenfunctions of the unprojected eigenvalue problem to deviate from this distinction. Before making any more assumptions about the individual spin-orbitals, we must recall that the only thing which has any direct consequence is the form of the total density itself,
+\begin{equation}
+\rho = \sum_i^{(A)} q_i \phi_i^{A*} \phi_i^A,
+\end{equation}
+which occurs in the Coulomb and exchange operators, the projection operators, and the total energy expression. In terms of the unconstrained functions the total density may be written
+\begin{equation}
+\rho = \sum_i^{(A)} q_i (1 - P_B) \tilde{\phi}_i^A (1 - P_B) \tilde{\phi}_i^A,
+\end{equation}
+which upon expansion of the projection operators gives
+\begin{align}
+\rho &= \sum_i^{(A)} q_i \tilde{\phi}_i^{A*} \tilde{\phi}_i^A - \sum_i^{(A)} \sum_j^{(B)} q_i \langle \tilde{\phi}_i^A | \phi_j^B \rangle \phi_j^{B*} \tilde{\phi}_i^A \nonumber\\
+&\quad - \sum_i^{(A)} \sum_j^{(B)} q_i \langle \phi_j^B | \tilde{\phi}_i^A \rangle \tilde{\phi}_i^{A*} \phi_j^B \nonumber\\
+&\quad + \sum_i^{(A)} \sum_{j,k}^{(B)} q_i \langle \tilde{\phi}_i^A | \phi_j^B \rangle \langle \phi_k^B | \tilde{\phi}_i^A \rangle \phi_j^{B*} \phi_k^B.
+\end{align}
+
+If we now invoke the Mulliken approximation (1949) for the differential overlap,
+\begin{equation}
+\phi_i \phi_j^* = \langle \phi_j | \phi_i \rangle (\phi_i \phi_i^* + \phi_j \phi_j^*)/2,
+\end{equation}
+then (II-31) becomes
+\begin{align}
+\rho &= \sum_i^{(A)} q_i \tilde{\phi}_i^{A*} \tilde{\phi}_i^A - \sum_i^{(A)} \sum_j^{(B)} q_i \langle \tilde{\phi}_i^A | \phi_j^B \rangle^2 \langle \tilde{\phi}_i^{A*} \tilde{\phi}_i^A + \phi_j^{B*} \phi_j^B \rangle \nonumber\\
+&\quad + \sum_i^{(A)} \sum_j^{(B)} q_i \langle \tilde{\phi}_i^A | \phi_j^B \rangle^2 \phi_j^{B*} \phi_j^B \nonumber\\
+&= \sum_i^{(A)} q_i \left(1 - \sum_j^{(B)} \langle \tilde{\phi}_i^A | \phi_j^B \rangle^2\right) \tilde{\phi}_i^{A*} \tilde{\phi}_i^A \nonumber\\
+&= \sum_i^{(A)} q_i \phi_i^{A'*} \phi_i^{A'}
+\end{align}
+where
+\begin{equation}
+\phi_i^{A'} = \left(1 - \sum_j^{(B)} \langle \tilde{\phi}_i^A | \phi_j^B \rangle^2\right)^{-1/2} \tilde{\phi}_i^A
+\end{equation}
+and
+\begin{equation}
+\langle \phi_i^{A'} | \phi_i^{A'} \rangle = 1.
+\end{equation}
+
+Thus, the Mulliken approximation leads directly to a form of the total density in terms of the single-center unconstrained functions which have been renormalized to unity. So with this as an incentive, we shall replace the constrained functions, wherever they occur, by their renormalized unconstrained counterparts, that is,
+\begin{equation}
+\phi_i^A = \phi_i^{A'}.
+\end{equation}
+
+We will drop the ``prime'' notation and keep in mind that this substitution shall always be in effect. The full impact of retaining the localized single-center expansions will not be realized until approximate forms for the interatomic interactions are introduced in chapters IV and V.
+
+Before looking in more detail at the pseudopotentials, let us consider what additional problems we can expect when the same reasoning is extended to molecules beyond diatomics. In brief, the secular problem, analogous to (II-19), that would be associated with atom A in the triatomic molecule A-B-B' is
+\begin{equation}
+|\langle \tilde{\phi}_i^A | (1 - P_B)^+ (1 - P_{B'})^+ (F - \varepsilon) (1 - P_{B'}) (1 - P_B) | \tilde{\phi}_i^A \rangle| = 0
+\end{equation}
+where now, in general, the projection operators are not orthogonal (or disjoint), that is,
+\begin{equation}
+P_B P_{B'} \neq 0 = \sum_j \sum_k \langle \phi_k^{B'} | \phi_j^B \rangle |\phi_j^B \rangle \langle \phi_k^{B'}|
+\end{equation}
+where
+\begin{equation}
+\langle \phi_j^B | \phi_k^{B'} \rangle \neq 0.
+\end{equation}
+
+We would get analogous expressions for atoms B and B'. The corresponding pseudopotentials would thus be more complicated than those encountered in the diatomic case, unless some simplifying assumptions can be made. An attempt will be made in the next chapter to retain a pseudopotential which is accurate to at least second-order in interatomic overlap. This next chapter is devoted to a more detailed look at the pseudopotentials, with particular attention paid to the energy dependence.
+
+\chapter{THE ENERGY-DEPENDENT PSEUDOPOTENTIAL}
+
+In the previous chapter, we have essentially defined an effective atom-in-molecule one-electron Hamiltonian. Its associated eigenvalue problem has the form
+\begin{equation}
+Q^+ F Q \phi = \varepsilon \phi
+\end{equation}
+where F is the polyatomic analog of (II-2) and Q is a product of projection operators,
+\begin{equation}
+Q = (1 - P_B)(1 - P_{B'})(1 - P_{B''})...
+\end{equation}
+which are now in general disjoint (and so Q is not in general a projection operator itself). If we expand Q,
+\begin{equation}
+Q = 1 - P_B - P_{B'} - ... + P_B P_{B'} + P_B P_{B''} + ...,
+\end{equation}
+and retain only terms up to second-order in differential overlap (second-order in P), and then invoke the Mulliken approximation (1949) for the terms involving interatomic differential overlap,
+\begin{equation}
+|\phi_i^B \rangle \langle \phi_j^{B'}| = \frac{1}{2}\langle \phi_i^B | \phi_j^{B'} \rangle \left(|\phi_i^B \rangle \langle \phi_i^B| + |\phi_j^{B'} \rangle \langle \phi_j^{B'}|\right),
+\end{equation}
+we get the general form for Q
+\begin{equation}
+Q = 1 - P
+\end{equation}
+where
+\begin{equation}
+P = \sum_i^{(B)} \left(1 - \sum_{j \neq i}^{(B')} \langle \phi_i^B | \phi_j^{B'} \rangle^2\right)^{1/2} |\phi_i^B \rangle \langle \phi_i^B|.
+\end{equation}
+
+The first sum in (III-6) is over all normalized (nonorthogonal) unconstrained eigenfunctions associated with all the atoms (B) in the molecule except the one with which Q is associated (A), and the second inner sum is over all atoms except A and the particular atom B being summed over in the outer sum. The operator P thus ``projects'' out the space complementary to the atom being considered (A), which is just a generalization of the projection operators we encountered for the diatomic case in the previous chapter, that is,
+\begin{equation}
+P = P_B = \sum_i^{(B)} \gamma_i^B |\phi_i^B \rangle \langle \phi_i^B|
+\end{equation}
+with
+\begin{equation}
+\gamma_i^B = 1 - \sum_{j \neq i}^{(B')} \langle \phi_i^B | \phi_j^{B'} \rangle^2
+\end{equation}
+being an overlap correction to the ``projection'' manifold. In the limit of zero-overlap, P is a true projection operator with the idempotency relation fulfilled.
+
+The secular problem which we then wish to solve is of the same form as (II-19), namely
+\begin{equation}
+|\langle \phi_i | (1 - P)(F - \varepsilon)(1 - P) | \phi_i \rangle| = 0
+\end{equation}
+or in terms of a pseudopotential
+\begin{equation}
+|\langle \phi_i | F + V - \varepsilon | \phi_i \rangle| = 0
+\end{equation}
+where, analogous to (II-23),
+\begin{equation}
+V = -(PF - \varepsilon P)(2 - P) - [F, P].
+\end{equation}
+
+In order to simplify the form of V, as in (II-26), we need to examine FP and PP in some detail. Let us first consider the former,
+\begin{equation}
+FP = F \sum_i^{(B)} \gamma_i^B |\phi_i^B \rangle \langle \phi_i^B|.
+\end{equation}
+
+We must recall that the eigenfunctions in (III-12) are not eigenfunctions of F but rather
+\begin{equation}
+(F + V^B) \phi_i^B = \varepsilon_i^B \phi_i^B
+\end{equation}
+with the corresponding pseudopotential associated with the environment of atom B. Rearranging (III-13) gives
+\begin{equation}
+F\phi_i^B = \varepsilon_i^B \phi_i^B - V^B \phi_i^B
+\end{equation}
+which through first-order in perturbation theory becomes
+\begin{equation}
+F\phi_i^B = \tilde{\varepsilon}_i^B \phi_i^B
+\end{equation}
+where
+\begin{equation}
+\tilde{\varepsilon}_i^B = \varepsilon_i^B - \langle \phi_i^B | V^B | \phi_i^B \rangle.
+\end{equation}
+
+Using this now in (III-12) gives
+\begin{equation}
+FP = \sum_i^{(B)} \tilde{\varepsilon}_i^B \gamma_i^B |\phi_i^B \rangle \langle \phi_i^B|
+\end{equation}
+and since F is a self-adjoint operator, (III-15) also grants
+\begin{equation}
+PF = FP
+\end{equation}
+causing the commutator in (III-11) to vanish, leaving us with
+\begin{equation}
+V = -(F - \varepsilon)(2P - PP).
+\end{equation}
+
+Looking now at PP we have that
+\begin{equation}
+PP = \sum_i^{(B)} \sum_j^{(B')} \gamma_i^B \gamma_j^{B'} |\phi_i^B \rangle \langle \phi_i^B | \phi_j^{B'} \rangle \langle \phi_j^{B'}|.
+\end{equation}
+
+If we again invoke Mulliken's approximation (III-4) then
+\begin{equation}
+PP = \sum_i^{(B)} \tilde{\gamma}_i^B \gamma_i^B |\phi_i^B \rangle \langle \phi_i^B|
+\end{equation}
+where
+\begin{equation}
+\tilde{\gamma}_i^B = \gamma_i^B + \sum_{j \neq i}^{(B')} \gamma_j^{B'} \langle \phi_i^B | \phi_j^{B'} \rangle^2.
+\end{equation}
+
+Putting this into (III-19) we obtain
+\begin{equation}
+V = \sum_i^{(B)} (\varepsilon - \tilde{\varepsilon}_i^B)(2 - \tilde{\gamma}_i^B)\gamma_i^B |\phi_i^B \rangle \langle \phi_i^B|
+\end{equation}
+which in the limit of an orthonormal ``projection'' manifold reduces to the Phillips-Kleinman (1959) pseudopotential
+\begin{equation}
+V = \sum_i^{(B)} (\varepsilon - \varepsilon_i^B) |\phi_i^B \rangle \langle \phi_i^B|.
+\end{equation}
+
+One should note the explicit dependence of V on the energy eigenvalue $\varepsilon$. This energy dependence is the only remaining complication in writing down the final matrix equations for solving the secular problem in (III-10). Before getting into the energy dependence, though, let us introduce a basis and proceed to set up these matrix equations.
+
+For the sake of clarity and simplicity, we consider an orthonormal basis centered on the atom (A) with which we are currently concerned, such that
+\begin{equation}
+\phi_i = \sum_{k=1}^M u_k C_{ki}
+\end{equation}
+or in matrix notation
+\begin{equation}
+\phi = uC
+\end{equation}
+where M is the number of functions in the basis (and so the maximum number of eigenfunctions we can obtain). We then consider a composite basis for all the other eigenfunctions centered on their respective atomic centers, that is,
+\begin{equation}
+\phi_i^B = \sum_k^{(B)} u_k^B C_{ki}^B
+\end{equation}
+or in matrix notation
+\begin{equation}
+\phi^B = u^B C^B.
+\end{equation}
+
+If we now define the matrices
+\begin{equation}
+S_{kl} = \langle u_k | u_l \rangle,
+\end{equation}
+\begin{equation}
+E_{kl} = \sum_i^{(B)} \varepsilon_i^B (2 - \tilde{\gamma}_i^B) \gamma_i^B C_{ki}^B C_{li}^{B*},
+\end{equation}
+and
+\begin{equation}
+B_{kl} = \sum_i^{(B)} \tilde{\varepsilon}_i^B (2 - \tilde{\gamma}_i^B) \gamma_i^B C_{ki}^B C_{li}^{B*}
+\end{equation}
+then
+\begin{equation}
+V_{kl} = \langle u_k | V | u_l \rangle = \varepsilon(SES^+)_{kl} - (SBS^+)_{kl}.
+\end{equation}
+
+Thus, aside from the energy dependence of V, the secular problem (III-10) reduces to finding the unitary matrix C such that
+\begin{equation}
+C^+(F + V)C = \varepsilon
+\end{equation}
+where
+\begin{equation}
+F_{kl} = \langle u_k | F | u_l \rangle
+\end{equation}
+and $\varepsilon$ is now a diagonal matrix.
+
+As already stated, the only remaining complication is the explicit energy dependence of the pseudopotential (III-32). As long as this energy dependence is there, we cannot seek simultaneous eigenfunctions of the same operator, since each eigenfunction would correspond to a different operator dependent upon its own eigenvalue. Such eigenfunctions would not even be orthogonal to each other. Operators of this nature, which correspond to a one-dimensional Hilbert space, are also inherently non-Hermitean in any matrix representation (of order higher than one). We shall now derive an approximate form for the pseudopotential which is explicitly energy independent and Hermitean.
+
+First, let us rewrite (III-33) in terms of a modified Fock matrix, that is,
+\begin{equation}
+C^+ \bar{F} C = \varepsilon
+\end{equation}
+where
+\begin{equation}
+\bar{F} = F + \varepsilon P - B,
+\end{equation}
+\begin{equation}
+P = SES^+,
+\end{equation}
+and
+\begin{equation}
+B = SBS^+.
+\end{equation}
+
+Then we note that from (III-35)
+\begin{equation}
+\bar{F}C = C\varepsilon.
+\end{equation}
+
+Now putting (III-36) back into (III-35) we have
+\begin{equation}
+C^+ FC + C^+ PC\varepsilon - C^+ BC = \varepsilon
+\end{equation}
+which upon substitution of (III-39) becomes
+\begin{equation}
+C^+ FC + C^+ P\bar{F}C - C^+ PC = \varepsilon
+\end{equation}
+or
+\begin{equation}
+C^+(F + PF - B)C = \varepsilon.
+\end{equation}
+
+So comparing this with (III-35) we have that
+\begin{equation}
+\bar{F} = F + PF - B
+\end{equation}
+which upon rearranging gives
+\begin{equation}
+\bar{F} = (1 - P)^{-1}(F - B).
+\end{equation}
+
+If we now expand the inverse, we generate the series
+\begin{equation}
+\bar{F} = F - B + PF - PB + PPF - ...
+\end{equation}
+from which, along with (III-36) and (III-43), we gather that
+\begin{equation}
+\varepsilon P = PF = BF - B + BPF - ...
+\end{equation}
+which is similar to a perturbation expansion. Since the pseudopotential matrices (III-37, III-38) are already second-order in overlap, this series should be rapidly convergent. In fact, we shall take only the first two terms of (III-46) in our approximation. The non-Hermiticity is also apparent in this expansion form, and so we choose the approximate Hermitean form for (III-46)
+\begin{equation}
+\varepsilon P = \frac{1}{2}(PF - BP + FP - BP).
+\end{equation}
+
+Our modified Fock matrix then becomes
+\begin{equation}
+\bar{F} = F - B + \frac{1}{2}(PF - BP + FP - BP).
+\end{equation}
+
+We have at this point arrived at a scheme for treating a specific atom within a polyatomic system. This scheme can be used for each atom in the system, which are then coupled in a self-consistent manner as described in the previous chapter. All aspects of the Hartree-Fock scheme (or any generalization of this independent-particle model) have been preserved, with the environment of each atom being reduced to the inclusion of additional potential terms. Our largest sacrifice was made in return for the one-center expansion of the eigenfunctions; however, we have not yet used this to its full advantage. Although we have eliminated all three- and four-center two-electron integrals and many two-center integrals, we have only replaced them by just as many one- and two-center integrals. This reduction alone may very well have been worth the sacrifice, but the goal here is for a more substantial reduction in work. The localized picture which comes out of this projected Hamiltonian approach can be used to its fullest advantage in approximating the interatomic Coulombic and exchange interactions which now have their closest resemblance to an electrostatic model. This will be the topic of the next two chapters.
+
+\chapter{A MODEL APPROXIMATION TO THE EFFECTIVE ONE-ELECTRON INTERATOMIC COULOMB POTENTIAL}
+
+If one can substantially reduce the number of multicenter two-electron integrals encountered in conventional analytic \textit{ab initio} methods, the computational savings would be overwhelming. In the last chapter, the multicenter integrals were all reduced to at most two-center integrals by restricting the eigenfunctions to one-center expansions. The actual number of integrals, however, has not been changed. We shall in this chapter exploit the localized picture and substantially reduce the number of two-center Coulomb integrals. This shall be done by replacing the effective one-electron operator, for the two-electron Coulomb interaction, by a model approximation.
+
+The integrals which we wish to approximate are of the form
+\begin{equation}
+\langle \phi_i | J | \phi_i \rangle
+\end{equation}
+which is the Coulombic interaction of the i-th spin-orbital with all the other spin-orbitals in the polyatomic system except those on the same atomic center (A). The effective one-electron operator is given more explicitly by
+\begin{equation}
+J = \sum_i^{(B)} q_i^B \langle \phi_i^B | r_{12}^{-1} | \phi_i^B \rangle
+\end{equation}
+where the $q$'s are spin-orbital occupation numbers and the subscript 1 is used (but dropped from here on) to emphasize the functional dependence of the operator J on the coordinates of electron 1. When the eigenfunctions are expanded in a basis, one generates the multitude of multicenter two-electron integrals of the type
+\begin{equation}
+\langle u_k u_m | r_{12}^{-1} | u_l u_n \rangle.
+\end{equation}
+
+It is the intricate dependence of J on the coordinates of electron 1 that does not allow for a simpler treatment of this operator, and so we seek an analytic function with a simpler functional dependence to approximate the operator J.
+
+Let us restrict ourselves to the case of a diatomic molecule for the moment, where J is centered on a single atom (B). Then for large interatomic separation J approaches the approximate form
+\begin{equation}
+J = N^B r_{1B}^{-1}
+\end{equation}
+where the total electronic charge is reduced to a point charge on the distant atomic center. This corresponds to replacing the electronic coordinates of electron 2 in (IV-2) by the nuclear coordinates of atom B, that is,
+\begin{equation}
+J = \sum_i^{(B)} q_i^B \langle \phi_i^B | r_{1B}^{-1} | \phi_i^B \rangle.
+\end{equation}
+
+At lesser interatomic separation, where the charge density can no longer be considered a point charge, the interelectronic distance must undergo an effective dilation to account for the more diffuse charge. Furthermore, as electron 1 approaches the nucleus of atom B, the nuclear attraction should not witness any appreciable screening, and therefore any model function should go to zero as this distance goes to zero. The following model potential function, which we now choose, has these desired properties:
+\begin{equation}
+J = N^B \chi^B(\vec{r}_{1B}) r_{1B}^{-1}
+\end{equation}
+where $\chi$ is a screening function with the asymptotic behavior
+\begin{equation}
+\chi(0) = 1
+\end{equation}
+and
+\begin{equation}
+\chi(\infty) = 0.
+\end{equation}
+
+Such a screening function is inherent to the Thomas-Fermi model (Thomas, 1928; Fermi, 1928) of the atom. A significant feature of the Thomas-Fermi screening function is that it is universal for all neutral atoms with respect to the dimensionless variable
+\begin{equation}
+x = r_{1B}[(3\pi/8)Z^B]^{-1/3}
+\end{equation}
+in terms of the nuclear charge. The distance $r$ is assumed to be given in Bohrs. Potentials of the form (IV-6) are certainly nothing new and most such potentials (Hellmann, 1935) adopt an exponential behavior for the screening function $\chi$. We make the choice
+\begin{equation}
+\chi^B(\vec{r}_{1B}) = \sum_t A_t^B \chi_t(n,l,m,a;\vec{r}_{1B})
+\end{equation}
+where
+\begin{equation}
+\chi_t(n,l,m,a;\vec{r}_{1B}) = r_{1B}^{-1} \exp(-ax_{1B}) Y_{lm}(\theta_{1B}, \phi_{1B})
+\end{equation}
+and where the exponential factors are, in principle, universal and could be used for all atoms (with the appropriate change in x). Any angular distortions are taken into account with the real normalized spherical harmonics. The linear coefficients are to be determined by fitting the approximate form of J in (IV-6) to its true form in (IV-5) along with the constraint in (IV-7). We have merely expanded the operator J in a basis of Slater-type functions (with a somewhat universal choice of exponents).
+
+The linear coefficients are computationally quite simple to handle since they can be taken outside the integrals in which they appear. The coefficients can be determined by substituting (IV-6) for (IV-5) in the one-center Coulomb integrals occurring on atom B and matching their values, that is,
+\begin{equation}
+\langle \phi_i^B | J^B | \phi_i^B \rangle = \langle \phi_i^B | \tilde{J}^B | \phi_i^B \rangle
+\end{equation}
+for each eigenfunction on atom B. In more detail we have
+\begin{align}
+&N^B \langle \phi_i^B | r_{1B}^{-1} | \phi_i^B \rangle - \sum_t A_t^B \langle \phi_i^B | \chi_t(\vec{r}_{1B}) r_{1B}^{-1} | \phi_i^B \rangle \nonumber\\
+&= \sum_j^{(B)} q_j^B \langle \phi_i^B \phi_j^B | r_{12}^{-1} | \phi_j^B \phi_i^B \rangle
+\end{align}
+where the Coulomb integrals on the righthand side of the equation are one-center integrals which we properly compute and retain. We have as many equations like (IV-13) as there are eigenfunctions on that atom, consequently we can fit up to just as many linear coefficients. The number of terms that are needed in (IV-10), though, are usually much less than that (due to its relatively smooth behavior), so some type of (weighted) least-squares fit procedure should be adequate. One other condition, perhaps even more important, that can be satisfied is the total two-center nuclear attraction experienced by that atom, given by
+\begin{equation}
+Z^A \sum_i^{(B)} q_i^B \langle \phi_i^B | r_{1A}^{-1} | \phi_i^B \rangle = Z^A J^B(\vec{r}_{BA}).
+\end{equation}
+
+In the general case of a polyatomic, this would be a sum over all the other atoms. Thus, in addition to the equations in (IV-13), we can have
+\begin{equation}
+N^B r_{AB}^{-1} - \sum_t A_t^B \chi_t(\vec{r}_{AB}) r_{AB}^{-1} = \sum_i^{(B)} q_i^B \langle \phi_i^B | r_{1A}^{-1} | \phi_i^B \rangle.
+\end{equation}
+
+In order to determine the linear coefficients, these linear equations can be written in the matrix form
+\begin{equation}
+TA = G
+\end{equation}
+where
+\begin{equation}
+A_t = A_t,
+\end{equation}
+\begin{equation}
+T_{it} = \langle \phi_i^B | \chi_t(\vec{r}_{1B})r_{1B}^{-1} | \phi_i^B \rangle,
+\end{equation}
+\begin{equation}
+T_{M+1,t} = N^B \chi_t(\vec{r}_{AB}) r_{AB}^{-1},
+\end{equation}
+\begin{equation}
+T_{M+2,t} = \begin{cases}
+1 & \text{if } t = 0,\\
+0 & \text{if } t > 0,
+\end{cases}
+\end{equation}
+\begin{equation}
+G_i = N^B \langle \phi_i^B | r_{1B}^{-1} | \phi_i^B \rangle - \sum_j^{(B)} q_j^B \langle \phi_i^B \phi_j^B | r_{12}^{-1} | \phi_i^B \phi_j^B \rangle,
+\end{equation}
+\begin{equation}
+G_{M+1} = N^B r_{AB}^{-1} - \sum_i^{(B)} q_i^B \langle \phi_i^B | r_{1A}^{-1} | \phi_i^B \rangle,
+\end{equation}
+and
+\begin{equation}
+G_{M+2} = 1.
+\end{equation}
+
+In general M+2 is larger than the number of terms needed in (IV-10), and so we have an overdetermined set. If M+2 and K were equal, then T would be square and
+\begin{equation}
+A = T^{-1} G,
+\end{equation}
+provided that T is non-singular (no linear dependencies). However, in the general case, one can write the normal set of equations (IV-16) as
+\begin{equation}
+(T^+ wT) A = (T^+ w)G
+\end{equation}
+where w is an arbitrary diagonal matrix whose elements act as weights to the original M+2 equations (IV-16). The choice of a unit matrix would correspond to the usual linear least-squares fit procedure; nevertheless, the option of giving more importance to certain conditions such as the external nuclear attraction (IV-14, 15) or to the valence orbitals over the core orbitals can be useful. Since we now have square matrices, we can solve for A in terms of the generalized inverse of T, that is,
+\begin{equation}
+A = (T^+ wT)^{-1}(T^+ w) G.
+\end{equation}
+
+The exponents in (IV-10) could be determined once and for all by a mere fit to the universal Thomas-Fermi screening function mentioned earlier, but this would build in the deficiencies of the Thomas-Fermi model (particularly for small atoms). A better approach, perhaps, was suggested by some work carried out by Csavinsky (1968, 1973). He performed a variational calculation to determine an analytical solution to the Thomas-Fermi equations with the following trial function for the screening function:
+\begin{equation}
+\chi(x) = (A'e^{-a'x} + A''e^{-a''x})^2.
+\end{equation}
+
+His calculation yielded the exponents
+\begin{equation}
+a' = 0.1782550 \quad \text{and} \quad a'' = 1.759339
+\end{equation}
+as well as values for A' and A'' (but these are not of any concern to us). This corresponds to the following choice of exponents in our model potential expression (IV-10):
+\begin{align}
+a_1 &= 2a' = 0.3565118,\nonumber\\
+a_2 &= a' + a'' = 1.937591, \text{ and}\nonumber\\
+a_3 &= 2a'' = 3.518678.
+\end{align}
+
+These values were derived for spherically symmetric neutral atoms in the Thomas-Fermi model with somewhat modified boundary conditions implied by the particular choice of (IV-27). In order to allow for corrections to the Thomas-Fermi model, radial and angular distortions, and deviations from neutrality that would exist for an ``atom-in-a-molecule'', some additional flexibility (other than the variation of the linear coefficients) might be necessary. Augmenting expression (IV-10) with an extra term or two would probably be sufficient for most cases, but angular distortions would certainly necessitate the inclusion of some polarization terms. One could also just choose some general well-rounded, flexible basis, such as an even-tempered (Bardo and Ruedenberg, 1973) set of exponents, with the hopes that the use of the dimensionless variable x and well-determined linear coefficients would be sufficient.
+
+\chapter{AN APPROXIMATE NONLOCAL INTERATOMIC EXCHANGE POTENTIAL}
+
+In the last chapter, we substantially reduced the number of two-center two-electron Coulomb integrals by exploiting the localized picture. We shall now attempt a similar reduction in the analogous exchange integrals. Again, we wish to approximate the effective one-electron operator, but this time the operator is nonlocal and requires a somewhat different approach.
+
+The two-center exchange integrals are of the form
+\begin{equation}
+\langle \phi_i | K | \phi_i \rangle
+\end{equation}
+where K is the effective nonlocal one-electron operator (subscript 1 dropped from here on) for the exchange interaction with all the other spin-orbitals (of same spin) in the polyatomic system except those associated with this center (A). The operator K is defined such that
+\begin{equation}
+K\phi_i(1) = \sum_j^{(B)} q_j^B \langle \phi_j^B | r_{12}^{-1} | \phi_i \rangle \phi_j^B(1).
+\end{equation}
+
+Let us consider the asymptotic behaviour of (V-1) when the average interelectronic distance approaches the internuclear distance, that is, when
+\begin{equation}
+\langle \phi_i | K | \phi_i \rangle = r_{AB}^{-1} \sum_j^{(B)} q_j^B \langle \phi_i | \phi_j^B \rangle \langle \phi_j^B | \phi_i \rangle
+\end{equation}
+\begin{equation}
+K = r_{AB}^{-1} \sum_j^{(B)} q_j^B |\phi_j^B \rangle \langle \phi_j^B|.
+\end{equation}
+
+Since K is nonlocal, we can no longer use any of its ``local'' properties, such as its expectation values with respect to the eigenfunctions on its own center, to help determine an intermediate form for its approximation. Our endeavor thus far has been to retain a theory which is valid through at least second-order in diatomic overlap, and so it is felt that retaining K in its asymptotic form (V-4), which is second-order in overlap, would not be inconsistent with any other approximations made thus far. In such a case, the interatomic exchange can be treated with the same ease as the pseudopotential in chapter III.
+
+This approximation may appear to be a bit crude at first, but the magnitude of these interactions in this localized scheme is relatively small due to the nearly electrostatic nature of the model. It should be emphasized that the approximations used for the interatomic two-electron interactions could only be realized in such a localized separable picture.
+
+\chapter{A MODEL HAMILTONIAN AND AN APPROXIMATE ELECTRON PROPAGATOR}
+
+According to the Heisenberg equation of motion for the electron propagator (Linderberg and Öhrn, 1973), in the energy representation, we have in matrix form that
+\begin{align}
+G_{ij}(E) &= \langle\langle a_i ; a_j^+ \rangle\rangle_E \nonumber\\
+&= E^{-1}[\langle [a_i, a_j^+]_+ \rangle + \langle\langle [a_i, H] ; a_j^+ \rangle\rangle_E]
+\end{align}
+where
+\begin{equation}
+a_i = \langle \phi_i | \psi \rangle \quad \text{and} \quad a_i^+ = \langle \psi^+ | \phi_i \rangle
+\end{equation}
+are the annihilation and creation operators, respectively, with the anticommutation relations
+\begin{equation}
+[a_i, a_j]_+ = [a_i^+, a_j^+]_+ = 0 \quad \text{and} \quad [a_i, a_j^+]_+ = \delta_{ij}
+\end{equation}
+defined in terms of field operators and a spin-orbital basis. The many-electron Hamiltonian, in second quantized form, is
+\begin{equation}
+H = \sum_{ij} h_{ij} a_i^+ a_j + \frac{1}{2} \sum_{ijkl} (kl|ij) a_i^+ a_k^+ a_l a_j
+\end{equation}
+where
+\begin{equation}
+h_{ij} = \langle \phi_i | h | \phi_j \rangle
+\end{equation}
+and
+\begin{equation}
+(kl|ij) = \langle \phi_k \phi_l | r_{12}^{-1} | \phi_i \phi_j \rangle
+\end{equation}
+are the usual one- and two-electron integrals. Equation (VI-1) can be iterated to yield
+\begin{equation}
+G^{-1}(E) = ES^{-1} + FS^{-1}E^{-2} + ...
+\end{equation}
+where
+\begin{equation}
+F_{ij} = \langle\langle [a_i, H], a_j^+ \rangle\rangle
+\end{equation}
+is the first moment and so on. Substituting the Hamiltonian (VI-4) into (VI-8), the first moment becomes
+\begin{equation}
+F_{ij} = h_{ij} + \sum_{kl} [(ij|kl) - (il|kj)] \langle a_k^+ a_l \rangle
+\end{equation}
+which has the same form as the effective one-electron Hamiltonian as originally presented by Fock (1932) and will henceforth be called the Fock matrix. This more general approach to Hartree-Fock theory will be taken up in the next chapter.
+
+Suppose now that instead of using the correct many-electron Hamiltonian, one substitutes into equation (VI-8) an approximate one-electron model Hamiltonian of the form
+\begin{equation}
+H = \sum_k \varepsilon_k a_k^+ a_k = \sum_k \varepsilon_k n_k
+\end{equation}
+where the $ns are just the occupation number operators and the $\varepsilons are real, negative energies of the noninteracting electrons. In our present treatment, we would choose as our spin-orbital basis the nonorthogonal atomic spin-orbitals generated from each projected Hamiltonian calculation, and for the energies we would choose the corresponding eigenvalues, with possible modification (to the positive eigenvalues, for example). The Fock matrix then takes the approximate form
+\begin{equation}
+F_{ij} = \langle\langle [a_i, H], a_j^+ \rangle\rangle = \sum_k S_{ik} \varepsilon_k S_{kj}
+\end{equation}
+or in matrix form
+\begin{equation}
+F = S\varepsilon S
+\end{equation}
+where $\varepsilon$ is a diagonal matrix. Equation (VI-7) in matrix form becomes
+\begin{equation}
+G(E) = ES^{-1} - E^{-2}S\varepsilon S + ... = (ES^{-1} - \varepsilon)^{-1}
+\end{equation}
+where one can see that the poles of the propagator will occur at the eigenvalues of the Fock matrix, that is, at the zeros of the secular determinant
+\begin{equation}
+|S\varepsilon S - ES|.
+\end{equation}
+
+The corresponding eigenvalue problem
+\begin{equation}
+FC = SC\varepsilon
+\end{equation}
+can be reduced to the simpler one
+\begin{equation}
+F'C' = C'\varepsilon
+\end{equation}
+where
+\begin{equation}
+C'^+ C' = C'C'^+ = 1
+\end{equation}
+\begin{equation}
+F' = X^{-1}SX^{-1}
+\end{equation}
+with X being the diagonal matrix with elements
+\begin{equation}
+X_{kk} = (-\varepsilon_k)^{1/2}.
+\end{equation}
+
+This can be considered as the diagonalization of a Fock matrix in a basis which is energy-weighted Löwdin orthogonalized, and this is the reason for the term ``Energy-Weighted Maximum Overlap'' (EWMO) used by Linderberg et al. (1976) to describe this method. The molecular orbital coefficients in the original basis are given by
+\begin{equation}
+C_{ki} = C'_{ki}(\varepsilon_i/\varepsilon_k)^{1/2}.
+\end{equation}
+
+The electron propagator in this orthogonal basis becomes
+\begin{equation}
+G(E) = X^{-1}(EI + XSX)^{-1}XS,
+\end{equation}
+and the elements of the corresponding one-electron reduced density matrix are given by the contour integral (Linderberg et al., 1976)
+\begin{align}
+\langle a_k^+ a_l \rangle &= (2\pi i)^{-1} \oint_C dE \langle\langle a_k ; a_l^+ \rangle\rangle \nonumber\\
+&= (2\pi i)^{-1} \oint_C dE \, G_{kl}(E) \nonumber\\
+&= (2\pi i)^{-1} \oint_C dE (X^{-1}(EI + XSX)^{-1}XS)_{kl}
+\end{align}
+where C encloses the occupied energies. An appropriate definition of the charge and bond-order matrix would in this case be
+\begin{equation}
+P = (2\pi i)^{-1} \oint_C dE (EI + XSX)^{-1}.
+\end{equation}
+
+This choice leads to
+\begin{equation}
+q_k = P_{kk} = \sum_i \langle n_i \rangle |C'_{ki}|^2
+\end{equation}
+for the formal spin-orbital charges in terms of the molecular orbital occupations. This definition is equivalent to the orbital populations according to Mulliken (1955).
+
+In the case of positive energies in (VI-10), one would have to resort to some other type of orthogonal transformation in order to avoid a complex Fock matrix (VI-18). Löwdin's (1970) symmetric orthogonalization procedure would most closely resemble the procedure just described. The resulting population analysis is, of course, dependent on the type of orthogonal transformation used unless the analysis is done with respect to the original nonorthogonal basis. Population analysis in a nonorthogonal basis, however, can lead to unreasonable charges (negative or greater than one). One could, of course, always solve the complex eigenvalue problem and still use the above procedure, but, in general, the inclusion of positive-energy (virtual) spin-orbitals is not a straightforward task.
+
+\chapter{THE GRAND-CANONICAL HARTREE-FOCK SCHEME}
+
+The notion of an atom in a molecule led Slater (1970) to consider an energy functional obtained as an average over multiplets arising from a given configuration. His extension of this idea to configurations with fractional occupations, known as the Hyper-Hartree-Fock method, however, has been subject to some criticism because of the appearance of off-diagonal Lagrangian multipliers and lack of certain conceptual grounds (Jørgensen and Öhrn, 1973). In this same spirit we wish to introduce an average based on the statistical mechanical concept of an ensemble (Abdulnur et al., 1972). The particular choice of a Grand Canonical ensemble, as defined by its density operator, leads to the elimination of off-diagonal Lagrangian multipliers.
+
+A system of noninteracting electrons described by the Hamiltonian
+\begin{equation}
+H = \sum_i \varepsilon_i n_i
+\end{equation}
+can be described by the Grand Canonical partition function related to the density operator
+\begin{equation}
+\rho = \prod_i (1 - n_i + z_i n_i)/(1 + z_i)
+\end{equation}
+where
+\begin{equation}
+z_i = \exp[-(\varepsilon_i - \mu)/T]
+\end{equation}
+
+The parameters $\mu$ and T are the thermodynamic chemical potential and absolute temperature. The average value of an operator A for such a system is then given in terms of its trace with respect to the density operator, that is,
+\begin{equation}
+\langle A \rangle = \text{Tr}\{A\rho\}.
+\end{equation}
+
+In particular, the average value of the number operator is
+\begin{equation}
+\langle n_i \rangle = z_i/(1 + z_i).
+\end{equation}
+
+Using this in expression (VII-2) gives a unique way of defining the density operator from a given set of occupation numbers,
+\begin{equation}
+\rho = \prod_i [1 - \langle n_i \rangle + (2\langle n_i \rangle - 1)n_i],
+\end{equation}
+without any reference to any thermodynamic parameters. Although there is no connection with equilibrium situations in statistical mechanics, we shall refer to this as a Grand-Canonical density operator, which acts as a formal device for the formation of averages only. Except for the case of all integral occupation numbers, this form of the density operator gives a nonzero width (uncertainty) for the total number operator.
+
+If one considers an electron-conserving (Canonical) average value of the many-electron Hamiltonian in the orthonormal basis which diagonalizes the density matrix, one has
+\begin{equation}
+\langle H \rangle = \sum_i h_{ii} \langle n_i \rangle + \frac{1}{2} \sum_{ij} (J_{ij} - K_{ij}) \langle n_i n_j \rangle
+\end{equation}
+where the only thing which is not explicitly determined is the average of the number operator product in the second term. If, however, the average is performed with respect to the Grand-Canonical density operator then
+\begin{equation}
+\langle n_i n_j \rangle = \langle n_i \rangle \langle n_j \rangle,
+\end{equation}
+and equation (VII-7) can be written
+\begin{equation}
+\langle H \rangle = \sum_i \varepsilon_i \langle n_i \rangle - \frac{1}{2} \sum_{ij} V_{ij} \langle n_i \rangle \langle n_j \rangle
+\end{equation}
+where the effective one-electron energy is given by
+\begin{equation}
+\varepsilon_i = h_{ii} + \sum_j V_{ij} \langle n_j \rangle
+\end{equation}
+and the effective interaction energy by
+\begin{equation}
+V_{ij} = J_{ij} - K_{ij}.
+\end{equation}
+
+One recognizes that these energies can be interpreted as the first and second partial derivatives of the total energy functional $\langle H \rangle$ with respect to the occupation numbers as follows:
+\begin{equation}
+\partial \langle H \rangle / \partial \langle n_i \rangle = \varepsilon_i
+\end{equation}
+and
+\begin{equation}
+\partial^2 \langle H \rangle / \partial \langle n_i \rangle \partial \langle n_j \rangle = \partial \varepsilon_i / \partial \langle n_j \rangle = V_{ij}.
+\end{equation}
+
+Such interpretations lead to the finite-difference approximations to ionization energies
+\begin{equation}
+\Delta E^{(i)} = \varepsilon_i \Delta \langle n_i \rangle
+\end{equation}
+and excitation energies
+\begin{equation}
+\Delta E^{(i \to j)} = \varepsilon_j \Delta \langle n_j \rangle + \varepsilon_i \Delta \langle n_i \rangle + V_{ij} \Delta \langle n_i \rangle \Delta \langle n_j \rangle
+\end{equation}
+for which Koopmans' (1935) theorem is a special case. Application of the mean value theorem suggests that the best approximations to these quantities would be obtained by determining the $\varepsilons and V's at some intermediate point, such as $\langle n \rangle = 1/2$. Such a scheme has been termed the transition state method (Slater and Wood, 1971) when applied to similar energy functionals.
+
+The effective one-electron (Grand-Canonical) operator having these one-electron energies as its eigenvalues, has matrix elements, in an arbitrary nonorthogonal basis, of the form
+\begin{equation}
+F_{kl} = h_{kl} + \sum_{k'l'} [(kl|k'l') - (kl'|k'l)] \langle a_{k'}^+ a_{l'} \rangle
+\end{equation}
+where the density matrix elements are given by
+\begin{equation}
+\langle a_k^+ a_l \rangle = \sum_i C_{li} \langle n_i \rangle C_{ik}^*
+\end{equation}
+and C is the unitary transformation matrix in this basis which diagonalizes F, in other words, its columns are the associated eigenvectors of F. The iterative self-consistent construction and solution of equation (VII-16) is what has come to be called the Grand-Canonical Hartree-Fock (GCHF) method, with the total energy given by equations (VII-9), (VII-10), and (VII-11).
+
+\chapter{A SELF-CONSISTENT CHARGE AND CONFIGURATION PROCEDURE}
+
+Up to now we have said very little about the manner in which the spin-orbital occupations are assigned. This is somewhat of a sensitive subject, here and in many other ``building-block'' approaches. This question has its roots in the early days of valence-bond methods.\footnote{The literature on these methods is just too extensive to review here, but we suggest Gerratt (1974) for an excellent account of the subject as it applies here.} We would like to make an analogy between our method and the single-configuration of nonorthogonal orbitals method. This method amounts to a condensation of many configurations to one, built up from distorted (hybridized) atomic orbitals, which, in essence, is what Coulson and Fischer (1949) did for the hydrogen molecule. The application of this method to larger systems, however, is quite limited because of the difficulty in calculating the matrix elements of the Hamiltonian, since there is no orthogonality between the orbitals. The model itself provides a sensible interpretation of chemical bonding in terms of a distortion of the participating atomic orbitals combined with a recoupling of the spins. The method has been shown to be capable of yielding useful estimates of molecular binding energies and other properties. We view our method as a direct means of obtaining such distorted nonorthogonal orbitals, where the orthogonality problem has been incorporated into the pseudopotentials. The renormalized pseudo-orbitals (unconstrained functions of chapter II) then act as these hybrid orbitals. The total energy we compute from these orbitals is valid through second-order in overlap (from the Mulliken approximation) and so we should, within the integral approximations made, be able to mimic such a scheme, as far as we can tell. There are some other basic differences, however. These methods generally separate the space and spin parts of their wavefunctions, and consequently couple their spins with proper generalized spin functions.
+
+The concept of ``atomic valency'' arises when molecules are allowed to separate into their constituent atoms. When the most general linear combination of spin couplings is formed, the resulting separated atomic states can be regarded as well-defined ``valence states''. Any less coupling, however, can lead to ill-defined noncoupled states, particularly when degenerate states are involved. This we feel is mostly due to the separation of space and spin, connected with an imbalance of symmetry constraints on the two parts. In our treatment we use spin-orbitals, which from the beginning puts space and spin on similar footing. A single configuration of spin-orbitals will, in general, not correspond to a proper spin-coupled state, but the atomic ``valence states'' remain rather well-defined, since each valence electron is accommodated in a distinct (apart from exchange) atomic orbital with a distinct spin.
+
+One desires a configuration which allows one to describe the dissociation process as a smooth recoupling of the orbitals from a perfectly-paired state to the proper atomic states. Particularly attractive, in this regard, is the spin-valence theory employed by Heitler (1934), where eigenfunctions of the atomic Hamiltonians are coupled together to form the molecular state. In fact, this was the motivation behind Moffitt's (1951) atom-in-molecule approach. The basic question is ``how do we choose our spin-orbital occupations in our single-configuration, which has these desired properties, without falling into the traps that other methods do when all the proper couplings are not taken into account?'' Before we answer this, let us mention two methods which come close in spirit to what we are about to describe. The first is Hund's rule coupling (Gerratt, 1971), and the second is alternate molecular orbital (AMO) theory (Pauncz, 1967). We mention them because of the physical picture they present; however, in these two related methods, space and spin are separated, and the resultant spin functions are complicated. We feel that if one instead uses spin-orbitals and relaxes some of the constraints\footnote{These constraints were necessary in the other treatments to get proper separation of the atomic states. This is not necessary in our simple treatment.} normally imposed on the spin (Gunnarsson et al., 1977), then the same physical picture suggests a very simple scheme for making our assignments.
+
+The procedure is to start out with a configuration which corresponds to a covalent structure that one generates from valence shell electron-pair repulsion theory (VSEPR) as described in any general chemistry text. The spins are assigned such that the electrons on each atom are coupled to give maximum resultant and such that the resultant spin on each atom alternates in sign with respect to each of its bonded neighbors. This should be done such that the total resultant spin is the desired one (if possible). Consider the example of a carbon monoxide molecule. It has the valid structure
+\begin{equation}
+\text{:C} \equiv \text{O:}
+\end{equation}
+corresponding to the configuration
+\begin{align}
+&(C1s)(C1s')(C1s)(C1s')(O2s)(O2s')(O2s)(O2s')\nonumber\\
+&(C2p_x)(O2p_x')(O2p_z)(O2p_z')(O2p_y)(O2p_y')
+\end{align}
+where the primes denote opposite spin. There are of course ionic structures as well, but we shall incorporate them later. The main point here is that this structure separates into the atomic states represented by the configurations
+\begin{equation}
+(C1s)(C1s')(C2s)(C2s')(C2p_x)(C2p_x')(C2p_y)(C2p_z)
+\end{equation}
+and
+\begin{equation}
+(O1s)(O1s')(O2s)(O2s')(O2p_z')(O2p_y')
+\end{equation}
+each satisfying Hund's rule.
+
+This type of structure can be generated for any system where the atoms can be divided into the subsets in such a way that no two atoms which belong to the same subset are neighbors to each other. Such a system is called an ``alternate'' system. For nonalternate systems the situation can be quite different. In fact, in nonalternate solids this can give rise to antiferromagnetic conduction sheets.\footnote{For example, an FCC lattice might have alternating planes of parallel spin, thus a higher order of alternacy.} In cyclic molecules (the only molecules which can be nonalternate) nonalternacy is often accompanied by unusually stable ions, radicals, ``sandwich'' complexes, or some higher level of alternacy.\footnote{Such as sigma and pi planes.} Even though this would be an interesting topic on its own, we shall not dwell on it here. The main point we wished to make here is that within each atom we have parallel alignment of spins (Hund's rule, ferromagnetic coupling) and between atoms we have (at least for alternate systems) antiparallel alignment of spins (antiferromagnetic\footnote{Not to exclude the possibility of complete ferromagnetic coupling.} coupling). This is, of course, just a general guideline, and one can make any occupation assignments one wants, provided that care is taken not to break symmetry with exchange polarization (the scheme just described will not break symmetry when applied to alternate systems).
+
+So far we have just devised a way to assign spins such that we get smooth uncoupling upon separation. Suppose, though, that this single neutral structure does not properly describe the molecular state or the separated-atom states. What if we knew that the molecule had a triplet\footnote{By ``triplet'' we mean two unpaired parallel spins; total spin is never properly taken into account in our treatment.} ground state which cannot be formed by a smooth\footnote{``Smooth'' meaning no sudden charge transfer or spin flips.} coupling of the separated-atom ground triplet states? What if we suspect the ground state to be a great deal ionic in character? These types of questions involve what is perhaps best described as the crossing of different single-configuration diabatic states (O'Malley, 1971). The simplest procedure would be to compute both of the diabatic states involved and ``uncross'' them. In fact, for the first case where the curve crossing corresponds to a spin flip, this is about the only alternative one has in the present treatment; however, in the second case we only have charge transfer (no spin flips) taking place. This brings us to the main theme of this chapter - a self-consistent charge and configuration procedure.
+
+As mentioned earlier there are other valid (ionic) structures one can write down for carbon monoxide besides the covalent one in (VIII-1). These other structures are nothing more than charge transfers from the covalent structure (dismissing spin flips). By employing fractional occupations in our configuration we can go smoothly from one structure to another (one diabatic state to another). In general, the molecular state itself might best be described by such a configuration with fractional occupations (configuration mixing) which goes ``adiabatically'' into the separated atomic states with integral occupations. How does one determine these fractional occupations? So far we have not even said what determines the molecular state in our treatment. One could just define it in terms of a given (valence-bond) structure constructed from the atomic orbitals, but most molecules probably cannot be well-represented by a single structure. In chapter VI we developed a means of generating molecular (delocalized) orbitals from a model Hamiltonian built up from the atomic orbitals and energies. Perhaps the best way to describe the molecular state then is in terms of these molecular orbitals. We could choose integral occupations for these molecular orbitals corresponding to some desired state and then let the population analysis determine the fractional occupations for the atomic orbitals which go into our single valence-bond structure. Such a procedure would be very much like the Hyper-Hartree-Fock method proposed by Slater et al. (1969) for crystals. This type of procedure would allow one to compute a potential energy surface which by construction corresponds to a molecular state with a specific spin\footnote{Only the component along some common preferred axis is explicitly and uniquely specified.} and angular momentum, as well as to a specified set of separated-atom states with the same net spin and angular momentum. Perhaps the best way to illustrate this is by an example, and the next chapter should serve this purpose.
+
+\chapter{APPLICATIONS}
+
+\section{Nitric Oxide Molecule}
+
+Despite the important role of nitric oxide and its positive ion in the upper atmosphere and its ecologically undesirable presence in the exhaust emissions of our ever-so-popular automobiles down here on earth, there has been relatively little theoretical electronic structure work reported for this first-row diatomic molecule. Restricted Hartree-Fock and configuration interaction calculations have been carried out for the ground (X$^2\Pi$) and first excited (A$^2\Sigma^+$) states of nitric oxide at their equilibrium geometries by Green (1972, 1973) to yield one-electron properties with rather limited success.\footnote{See also the natural orbital calculation of Kouba and Öhrn (1971).} But to our knowledge there has been no unrestricted Hartree-Fock calculation (spin-projected or otherwise) reported on this odd-electron (paramagnetic), open-shell system to assess, on a one-electron basis, its complex photoelectron spectrum (Turner et al., 1970). Configuration interaction calculations for the positive ion have been done, however, in an attempt to assign the various observed states (11 between 9 and 24 eV) by Lefebvre-Brion and Moser (1966) and later by Thulstrup and Öhrn (1972). The assignments appear to be resolved, although alternate assignments have been proposed by Collin and Natalis (1968).
+
+We make no attempt here to confirm or challenge these assignments, but rather, to test our theory for its strengths and weaknesses on a reasonably small but complex system before applying it to a much more ambitious problem. Since our aim is to look into the chemisorption of nitric oxide on a nickel surface, perhaps we should know how the theory works on nitric oxide itself. From the outset we expect (or at least hope) that the dissociation process, in terms of the interaction of localized atomic orbitals and the associated total energy, should be reasonably well described, since the total energy is not dependent upon how the total density is broken up into various contributions but rather on the total density alone. On the other hand, properties associated with the delocalized molecular orbitals derived from our model Hamiltonian, such as Koopmans' energies, must be taken with less reliance. In connection with this, charge transfer (between valence-bond structures, if you wish) is expected to be a sensitive issue. This too, in our procedure, depends on the model Hamiltonian used to generate the molecular orbitals from which the population analysis proceeds. For the most part, we will avoid such complications by restricting ourselves to single valence-bond-type structures, that is, no charge consistency will in general be attempted.
+
+For nitric oxide in its ground (X$^2\Pi$) state, we will use the configuration
+\begin{align}
+&(O1s)(O1s')(N1s)(N1s')(O2s)(O2s')(N2s)(N2s')\nonumber\\
+&(O2p_z)(N2p_z')(O2p_x)(N2p_x')(O2p_y)(O2p_y')(N2p_y')
+\end{align}
+in terms of ``perfect-paired'' atomic spin-orbitals where the primes denote the minority spin. This is unitarily equivalent to a molecular configuration
+\begin{align}
+&(1\sigma)(1\sigma')(2\sigma)(2\sigma')(3\sigma)(3\sigma')(4\sigma)(4\sigma')\nonumber\\
+&(5\sigma)(5\sigma')(1\pi_x)(1\pi_x')(1\pi_y)(1\pi_y')(2\pi_y')
+\end{align}
+where the $2\sigma$, $4\sigma$ and $2\pi_y$ orbitals would be of antibonding character and the $1\sigma$ and $1\pi_y$ orbitals of rather nonbonding character. In our procedure, the nitrogen and oxygen orbitals in (IX-1) are determined separately in an alternating fashion coupled to each other in a self-consistent manner as described in earlier chapters. From these atomic orbitals, a model Hamiltonian is constructed whose natural orbitals (canonical Hartree-Fock solutions) correspond roughly to the molecular orbitals in (IX-2).
+
+The basis sets used for nitrogen and oxygen are STO's of double-zeta quality (Roetti and Clementi, 1974) plus d-type polarization functions, for a total of 15 functions on each atom. The model potentials were expanded in a set of 4 s-type functions and one p-type function polarized along the bond axis (z-direction here). We chose an even-tempered set of exponents (0.5, 1.0, 2.0, 4.0) scaled by the cube root of the nuclear charge, as suggested in chapter IV. The exponents for the basis sets and the model potentials are listed in Tables 1 and 2. No attempt was made to optimize these exponents, and the polarization functions were selected rather arbitrarily.
+
+[Tables and additional content continue as in the original document...]
+
+\section{Nickel(100) Surface}
+
+Much has been said in these energy-conscious times about the importance of the study of surfaces and of chemisorption on them in the field of catalysis, and the recent growth of interest in this field has spawned significant advances in both theory and experiment. Ultrahigh vacuum techniques coupled with an endless variety of optical, electron and other spectroscopic measurements provide the surface scientist with the tools to help understand the nature of surfaces and the electronic structure of surface-adsorbate complexes.\footnote{See, e.g., Physics Today, 28(4), April 1975; issue devoted to surface physics.} On the theoretical side, various approaches stem from both solid-state band theory and theories generally applied to molecular complexes; however, we are still far from possessing a reliable computational method for a satisfactory description of the chemisorption bond.\footnote{See Bullett and Cohen (1977a) and references therein for a short synopsis of current techniques.} One needs a method as simple as extended Hückel theory (Wolfsberg and Helmholtz, 1952; Anderson and Hoffmann, 1974) which is self-consistent and contains no empirical parameters.
+
+[Content continues as in the original document...]
+
+\chapter{DISCUSSION}
+
+The method we have tried to present here is still in a youthful stage of its development, having been conceived, given vitality in the ever-amendable form of computer software, and ready to withstand the test of time. Its maturity will most certainly come only with growth and inevitable change, for nearly every assumption or approximation that has been made in its early stages can be improved upon to some extent if necessary. Before one can make much constructive (or destructive, for that matter) criticism, though, the method needs considerable testing. Our primary aim here was to present an application which demonstrates its applicability to a variety of systems. Such a study, however, does not produce any trends or provide any statistics by which to judge its predictability or its reliability. Studies in this regard are, of course, forthcoming and should prove to be indicative of any need for alterations in the method.
+
+[Content continues as in the original document...]
+
+% Bibliography
+\begin{thebibliography}{99}
+
+\bibitem{Abdulnur1972} Abdulnur, S.F., Linderberg, J., Öhrn, Y., and Thulstrup, P.W. (1972). Phys. Rev. A \textbf{6}, 889.
+
+\bibitem{Adams1965} Adams, W.H. (1965). J. Chem. Phys. \textbf{42}, 4030.
+
+\bibitem{Adams1967} Adams, W.H. (1967). Phys. Rev. \textbf{156}, 109.
+
+\bibitem{Adams1971} Adams, W.H. (1971). Chem. Phys. Letters \textbf{11}, 441.
+
+\bibitem{Anderson1974} Anderson, A.B., and Hoffmann, R. (1974). J. Chem. Phys. \textbf{61}, 4545.
+
+\bibitem{Bardo1973} Bardo, R.D., and Ruedenberg, K. (1973). J. Chem. Phys. \textbf{59}, 5956.
+
+\bibitem{Batra1976} Batra, I.P., and Brundle, C.R. (1976). Surf. Sci. \textbf{57}, 12.
+
+\bibitem{Blyholder1965} Blyholder, G., and Allen, M.C. (1965). J. Phys. Chem. \textbf{69}, 3998.
+
+\bibitem{Brundle1976} Brundle, C.R. (1976). J. Vac. Sci. Technol. \textbf{13}, 301.
+
+\bibitem{Bullett1977a} Bullett, D.W., and Cohen, M.L. (1977a). J. Phys. C \textbf{10}, 2083.
+
+\bibitem{Bullett1977b} Bullett, D.W., and Cohen, M.L. (1977b). J. Phys. C \textbf{10}, 2101.
+
+\bibitem{Collin1968} Collin, J.E., and Natalis, P. (1968). Chem. Phys. Letters \textbf{2}, 194.
+
+\bibitem{Connolly1973} Connolly, J.W.D., Siegbahn, H., Gelius, U., and Nordling, C. (1973). J. Chem. Phys. \textbf{58}, 4265.
+
+\bibitem{Coulson1949} Coulson, C.A., and Fischer, I. (1949). Phil. Mag. \textbf{40}, 386.
+
+\bibitem{Csavinsky1968} Csavinsky, P. (1968). Phys. Rev. \textbf{166}, 53.
+
+\bibitem{Csavinsky1973} Csavinsky, P. (1973). Phys. Rev. A \textbf{8}, 1688.
+
+\bibitem{Das1976} Das, G., and Wahl, A.C. (1976). J. Chem. Phys. \textbf{64}, 4672.
+
+\bibitem{Dunning1977} Dunning, T.H., and Hay, P. Jeffrey, Jr. (1977). In ``Modern Theoretical Chemistry'' Vol. 3 (H.F. Schaefer, ed.), Chap. 1. Plenum Press, New York.
+
+\bibitem{Fermi1928} Fermi, E. (1928). Z. Physik \textbf{48}, 73.
+
+\bibitem{Fock1932} Fock, V. (1932). Z. Physik \textbf{75}, 622.
+
+\bibitem{Gerratt1974} Gerratt, J. (1974). In ``Theoretical Chemistry'' Vol. 1 (R.N. Dixon, ed.). The Chemical Society, London.
+
+\bibitem{Gerratt1971} Gerratt, J. (1971). Adv. At. Mol. Phys. \textbf{7}, 141.
+
+\bibitem{Gilbert1972} Gilbert, T.L. (1972). Phys. Rev. A \textbf{6}, 580.
+
+\bibitem{Green1973} Green, S. (1973). Chem. Phys. Letters \textbf{23}, 115.
+
+\bibitem{Green1972} Green, S. (1972). Chem. Phys. Letters \textbf{13}, 552.
+
+\bibitem{Gunnarsson1977} Gunnarsson, O., Harris, J., and Jones, R.O. (1977). J. Chem. Phys. \textbf{67}, 3970.
+
+\bibitem{Heitler1934} Heitler, W. (1934). Marx Handb. d. Radiologie \textbf{II}, 485.
+
+\bibitem{Hellmann1935} Hellmann, H. (1935). J. Chem. Phys. \textbf{3}, 61.
+
+\bibitem{Herzberg1950} Herzberg, G. (1950). ``Spectra of Diatomic Molecules'' Van Nostrand, New York.
+
+\bibitem{Hodges1972} Hodges, L., Watson, R.E., and Ehrenreich, H. (1972). Phys. Rev. B \textbf{5}, 3953.
+
+\bibitem{Hollister1966} Hollister, C., and Sinanoglu, O. (1966). J. Am. Chem. Soc. \textbf{88}, 13.
+
+\bibitem{Hulbert1941} Hulbert, H.M., and Hirschfelder, J.O. (1941). J. Chem. Phys. \textbf{9}, 61.
+
+\bibitem{Hurley1953} Hurley, A.C., Lennard-Jones, J., and Pople, J.A. (1953). Proc. Roy. Soc. London A \textbf{220}, 446.
+
+\bibitem{Huzinaga1973} Huzinaga, S., McWilliams, D., and Cantu, A.A. (1973). Adv. Quant. Chem. \textbf{7}, 187.
+
+\bibitem{Jorgensen1973} Jørgensen, P., and Öhrn, Y. (1973). Phys. Rev. A \textbf{8}, 112.
+
+\bibitem{Kahn1976} Kahn, L.R., Baybutt, P., and Truhlar, D.G. (1976). J. Chem. Phys. \textbf{65}, 3826.
+
+\bibitem{Kobylinski1974} Kobylinski, T.P., and Taylor, B.W. (1974). J. Catalysis \textbf{33}, 376.
+
+\bibitem{Koopmans1935} Koopmans, T.A. (1935). Physica \textbf{1}, 104.
+
+\bibitem{Kouba1971} Kouba, J., and Öhrn, Y. (1971). Int. J. Quant. Chem. \textbf{5}, 539.
+
+\bibitem{Landman1974} Landman, U., and Adams, D.L. (1974). J. Vac. Sci. Technol. \textbf{11}, 191.
+
+\bibitem{Lefebvre1966} Lefebvre-Brion, H., and Moser, C.M. (1966). J. Chem. Phys. \textbf{44}, 2951.
+
+\bibitem{Linderberg1976} Linderberg, J., Öhrn, Y., and Thulstrup, P.W. (1976). In ``Quantum Science'' Plenum Press, New York.
+
+\bibitem{Linderberg1973} Linderberg, J., and Öhrn, Y. (1973). ``Propagators in Quantum Chemistry'' Academic Press, New York.
+
+\bibitem{Lowdin1961} Löwdin, P.O. (1961). J. Math. Phys. \textbf{2}, 969.
+
+\bibitem{Lowdin1964} Löwdin, P.O. (1964). J. Mol. Spec. \textbf{14}, 112.
+
+\bibitem{Lowdin1970} Löwdin, P.O. (1970). Adv. Quant. Chem. \textbf{5}, 185.
+
+\bibitem{McIntosh1975} McIntosh, H.V. (1975). ``Plot 75'' I.N.E.N., Mexico.
+
+\bibitem{Moffitt1951} Moffitt, W. (1951). Proc. Roy. Soc. London A \textbf{210}, 247.
+
+\bibitem{Morrison1966} Morrison, R.T., and Boyd, R.N. (1966). ``Organic Chemistry'' (2nd ed.) Allyn and Bacon, Boston.
+
+\bibitem{Mulliken1949} Mulliken, R.S. (1949). J. Chim. Phys. \textbf{46}, 497.
+
+\bibitem{Mulliken1955} Mulliken, R.S. (1955). J. Chem. Phys. \textbf{23}, 1833, 1841, 2338, 2343.
+
+\bibitem{OMalley1971} O'Malley, T.F. (1971). Adv. At. Mol. Phys. \textbf{7}, 223.
+
+\bibitem{Pauncz1967} Pauncz, R. (1967). ``Alternate Molecular Orbital Method'' Saunders, Philadelphia.
+
+\bibitem{Phillips1959} Phillips, J., and Kleinman, L. (1959). Phys. Rev. \textbf{116}, 287.
+
+\bibitem{Roetti1974} Roetti, C., and Clementi, E. (1974). Atomic Data and Nuclear Data Tables \textbf{14}, 177.
+
+\bibitem{Siegbahn1969} Siegbahn, K., Nordling, C., Johansson, G., Hedman, J., Heden, P.F., Hamrin, K., Gelius, U., Bergmark, T., Werme, L.O., Manne, R., and Baer, Y. (1969). ``ESCA Applied to Free Molecules'' North-Holland, Amsterdam.
+
+\bibitem{Slater1934} Slater, J.C. (1934). Phys. Rev. \textbf{45}, 794.
+
+\bibitem{Slater1969} Slater, J.C., Mann, J.B., Wilson, T.M., and Wood, J.H. (1969). Phys. Rev. \textbf{184}, 672.
+
+\bibitem{Slater1970} Slater, J.C. (1970). Int. J. Quant. Chem. \textbf{3S}, 727.
+
+\bibitem{SlaterWood1971} Slater, J.C., and Wood, J.H. (1971). Int. J. Quant. Chem. \textbf{4S}, 3.
+
+\bibitem{Slater1971} Slater, J.C. (1971). Int. J. Quant. Chem. \textbf{5}, 403.
+
+\bibitem{Thomas1928} Thomas, L.H. (1928). Proc. Camb. Philos. Soc. \textbf{23}, 542.
+
+\bibitem{Thulstrup1972} Thulstrup, P.W., and Öhrn, Y. (1972). J. Chem. Phys. \textbf{57}, 3716.
+
+\bibitem{Turner1970} Turner, D.W., Baker, C., Baker, A.D., and Brundle, C.R. (1970). ``Molecular Photoelectron Spectroscopy'' Wiley-Interscience, London.
+
+\bibitem{Weeks1969} Weeks, J.D., Hazi, A., and Rice, S.A. (1969). Adv. Chem. Phys. \textbf{16}, 283.
+
+\bibitem{Wolfsberg1952} Wolfsberg, M., and Helmholtz, L. (1952). J. Chem. Phys. \textbf{20}, 837.
+
+\end{thebibliography}
+
+\end{document}
